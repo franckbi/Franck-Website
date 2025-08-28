@@ -6,12 +6,8 @@
   "framework": "nextjs",
   "regions": ["iad1"],
   "functions": {
-    "app/api/contact/route.ts": {
-      "maxDuration": 10
-    },
-    "app/api/health/route.ts": {
-      "maxDuration": 5
-    }
+    "app/api/contact/route.ts": { "maxDuration": 10 },
+    "app/api/health/route.ts": { "maxDuration": 5 }
   },
   "headers": [
     {
@@ -58,39 +54,10 @@
       ]
     }
   ],
-  "redirects": [
-    {
-      "source": "/home",
-      "destination": "/",
-      "permanent": true
-    }
-  ],
+  "redirects": [{ "source": "/home", "destination": "/", "permanent": true }],
   "rewrites": [
-    {
-      "source": "/sitemap.xml",
-      "destination": "/api/sitemap"
-    },
-    {
-      "source": "/robots.txt",
-      "destination": "/api/robots"
-    }
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" },
+    { "source": "/robots.txt", "destination": "/api/robots" }
   ],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "build": {
-    "env": {
-      "NEXT_PUBLIC_ANALYTICS_ENABLED": "@analytics-enabled",
-      "NEXT_PUBLIC_ANALYTICS_URL": "@analytics-url",
-      "NEXT_PUBLIC_ANALYTICS_SITE_ID": "@analytics-site-id",
-      "RESEND_API_KEY": "@resend-api-key",
-      "CONTACT_EMAIL": "@contact-email"
-    }
-  },
-  "crons": [
-    {
-      "path": "/api/health",
-      "schedule": "0 9 * * *"
-    }
-  ]
+  "crons": [{ "path": "/api/health", "schedule": "0 9 * * *" }]
 }

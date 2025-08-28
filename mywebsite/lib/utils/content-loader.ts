@@ -15,31 +15,61 @@ import {
 } from '../validation/schemas';
 
 /**
- * Generic content loader with validation
+ * Simple in-memory cache for loaded content to avoid repeated fetches in tests/runtime
  */
+const contentCache = new Map<string, unknown>();
+
 async function loadContent<T>(
-  path: string,
+  pathStr: string,
   schema: z.ZodSchema<T>
 ): Promise<ContentResult<T>> {
   try {
-    // If running on the server, fetch requires an absolute URL. Build one from NEXT_PUBLIC_SITE_URL or fallback to localhost.
-    const fetchPath = (() => {
-      if (typeof window === 'undefined') {
-        if (path.startsWith('/')) {
-          const base =
-            process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-          try {
-            return new URL(path, base).toString();
-          } catch {
-            return base + path;
-          }
-        }
-      }
-      return path;
-    })();
+    // Return from cache if present
+    if (contentCache.has(pathStr)) {
+      return {
+        data: contentCache.get(pathStr) as T,
+        error: null,
+      };
+    }
 
-    // In a real application, this would fetch from an API or file system
-    // For now, we'll simulate loading from the public directory
+    // If running on the server and the path points to a local public asset, read from disk first.
+    if (typeof window === 'undefined' && pathStr.startsWith('/')) {
+      try {
+        const { readFile } = await import('fs/promises');
+        const pathMod = await import('path');
+        const relativePath = pathStr.startsWith('/')
+          ? pathStr.slice(1)
+          : pathStr;
+        const filePath = pathMod.join(process.cwd(), 'public', relativePath);
+        const fileContents = await readFile(filePath, 'utf-8');
+        const rawData = JSON.parse(fileContents);
+        const validatedData = schema.parse(rawData);
+
+        // Store in cache
+        contentCache.set(pathStr, validatedData as unknown);
+
+        return {
+          data: validatedData,
+          error: null,
+        };
+      } catch (err) {
+        // If file read or parse fails, we'll fall back to trying a network fetch below.
+        // Keep going to the fetch logic so non-file-backed paths still work.
+      }
+    }
+
+    // Build fetch path. When on the server and a leading-slash path is used, prefer NEXT_PUBLIC_SITE_URL
+    let fetchPath = pathStr;
+
+    if (typeof window === 'undefined' && pathStr.startsWith('/')) {
+      const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+      try {
+        fetchPath = new URL(pathStr, base).toString();
+      } catch {
+        fetchPath = base + pathStr;
+      }
+    }
+
     const response = await fetch(fetchPath);
 
     if (!response.ok) {
@@ -56,6 +86,9 @@ async function loadContent<T>(
 
     // Validate the data against the schema
     const validatedData = schema.parse(rawData);
+
+    // Store in cache
+    contentCache.set(pathStr, validatedData as unknown);
 
     return {
       data: validatedData,

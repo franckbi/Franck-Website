@@ -44,9 +44,9 @@ export const metadata: Metadata = {
     'interactive',
     'web development',
   ],
-  authors: [{ name: 'Portfolio Developer' }],
-  creator: 'Portfolio Developer',
-  publisher: 'Portfolio Developer',
+  authors: [{ name: 'FRANCK BIYOGUE BI NDOUTOUME' }],
+  creator: 'FRANCK BIYOGUE BI NDOUTOUME',
+  publisher: 'FRANCK BIYOGUE BI NDOUTOUME',
   formatDetection: {
     email: false,
     address: false,
@@ -74,8 +74,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@portfolio_dev',
-    creator: '@portfolio_dev',
+    site: '@franckbi',
+    creator: '@franckbi',
     title: 'Portfolio - Interactive 3D Developer Showcase',
     description:
       'Explore my work through an interactive 3D portfolio featuring modern web development, Three.js experiences, and cutting-edge technologies.',
@@ -100,6 +100,11 @@ export const metadata: Metadata = {
     yahoo: process.env.YAHOO_VERIFICATION,
   },
   category: 'technology',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
 };
 
 export const viewport: Viewport = {

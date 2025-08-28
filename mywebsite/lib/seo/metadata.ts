@@ -17,8 +17,8 @@ const DEFAULT_CONFIG = {
   siteName: 'Portfolio - Interactive 3D Developer Showcase',
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://portfolio.example.com',
   defaultImage: '/images/og-default.jpg',
-  twitterHandle: '@portfolio_dev',
-  author: 'Portfolio Developer',
+  twitterHandle: '@franckbi',
+  author: 'FRANCK BIYOGUE BI NDOUTOUME',
   locale: 'en_US',
 };
 
@@ -160,7 +160,7 @@ export function generateProjectsMetadata(): Metadata {
 
 export function generateAboutMetadata(): Metadata {
   return generateMetadata({
-    title: 'About - Portfolio Developer',
+    title: 'About - FRANCK BIYOGUE BI NDOUTOUME',
     description:
       'Learn about my background, skills, and experience in modern web development, 3D graphics, and interactive experiences.',
     url: '/about',

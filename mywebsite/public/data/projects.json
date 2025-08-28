@@ -65,114 +65,373 @@
     }
   },
   {
-    "slug": "task-management-app",
-    "title": "Task Management App",
-    "tagline": "Collaborative project management with real-time updates",
-    "description": "A full-stack task management application built with React and Node.js, featuring real-time collaboration, drag-and-drop interfaces, and comprehensive project tracking capabilities.",
+    "slug": "day-trading-scorer",
+    "title": "Day Trading Scorer",
+    "tagline": "Real-time stock scoring with GO/NO-GO verdicts",
+    "description": "A production-ready MVP that scores any U.S. stock on a 0–100 scale, enforces hard gates (liquidity, spread, volatility, data quality), and outputs a GO/NO-GO verdict with a full trade plan (entry, stop, target, position size).",
     "thumbnail": {
-      "src": "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop&crop=center",
-      "alt": "Task management app dashboard",
+      "src": "https://images.unsplash.com/photo-1559523161-0fc0d8b38a7e?w=800&h=600&fit=crop&crop=center",
+      "alt": "Stock market dashboard with charts and tickers",
       "width": 800,
-      "height": 600
+      "height": 600,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
     },
     "gallery": [
       {
-        "src": "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=1920&h=1080&fit=crop&crop=center",
-        "alt": "Main dashboard with project overview",
+        "src": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=1920&h=1080&fit=crop&crop=center",
+        "alt": "Real-time watchlist and scoring grid",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1552083375-1447ce886485?w=1920&h=1080&fit=crop&crop=center",
+        "alt": "Trade plan with entry, stop, target, and position size",
         "width": 1920,
         "height": 1080
       }
     ],
     "stack": [
-      "React",
-      "Node.js",
+      "FastAPI",
+      "Python",
       "PostgreSQL",
-      "Socket.io",
-      "Express",
-      "TypeScript"
+      "SQLAlchemy",
+      "Next.js",
+      "TypeScript",
+      "MUI",
+      "WebSockets",
+      "Docker",
+      "Playwright",
+      "pytest"
     ],
-    "role": "Full-Stack Developer",
-    "year": 2023,
+    "role": "Full-Stack Engineer",
+    "year": 2025,
     "links": {
-      "demo": "https://tasks.example.com",
-      "github": "https://github.com/username/task-management"
+      "case_study": "/projects/day-trading-scorer"
     },
-    "badges": ["Full-Stack", "Real-time"],
+    "badges": ["MVP", "Realtime", "Trading"],
     "priority": 2,
     "featured": true,
     "sceneRef": {
-      "position": { "x": -3, "y": 1, "z": 2 },
-      "rotation": { "x": 0, "y": 0.2, "z": 0 },
-      "scale": 0.8
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "scale": 1
     },
     "metadata": {
-      "challenge": "Enable seamless real-time collaboration for distributed teams",
-      "solution": "Implemented WebSocket-based real-time updates with optimistic UI patterns",
+      "challenge": "Provide disciplined, rules-based intraday decisions using live data while controlling risk and performance costs",
+      "solution": "Layered scoring with hard gates, cached indicators, circuit breakers, rate limiting, and full test coverage",
       "results": [
-        "Sub-100ms update latency",
-        "99.9% uptime",
-        "500+ active users"
+        "Updates every 5s via WebSockets",
+        "Hard-gates prevent low-quality trades",
+        "Complete trade plan generation"
       ],
+      "architecture": "FastAPI microservice with PostgreSQL and Next.js 14 frontend; optional Redis and Nginx",
       "highlights": [
-        "Real-time collaboration",
-        "Drag-and-drop interface",
-        "Advanced filtering"
+        "L1/L2 caching for indicators",
+        "Token bucket rate limiting",
+        "Circuit breakers and slow-query alerts"
       ]
     }
   },
   {
-    "slug": "e-commerce-platform",
-    "title": "E-commerce Platform",
-    "tagline": "Modern shopping experience with headless architecture",
-    "description": "A scalable e-commerce platform built with modern JAMstack architecture, featuring headless CMS integration, advanced search capabilities, and optimized checkout flows.",
+    "slug": "gridai-ml-interface",
+    "title": "GridAI — Cloud-Based ML Interface",
+    "tagline": "Real-time grid telemetry with ML outputs",
+    "description": "A Next.js interface to visualize live grid telemetry and ML model predictions with reusable components and data visualizations.",
     "thumbnail": {
-      "src": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop&crop=center",
-      "alt": "E-commerce platform product page",
+      "src": "https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=800&h=600&fit=crop&crop=center",
+      "alt": "Power grid control panel with charts",
       "width": 800,
-      "height": 600
+      "height": 600,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
     },
     "gallery": [
       {
-        "src": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&h=1080&fit=crop&crop=center",
-        "alt": "Homepage with featured products",
+        "src": "https://images.unsplash.com/photo-1482192596544-9eb780fc7f66?w=1920&h=1080&fit=crop&crop=center",
+        "alt": "Grid telemetry dashboard",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=1920&h=1080&fit=crop&crop=center",
+        "alt": "Model output overlays and alerts",
         "width": 1920,
         "height": 1080
       }
     ],
     "stack": [
       "Next.js",
-      "Shopify",
-      "GraphQL",
-      "Tailwind CSS",
-      "Stripe",
-      "Algolia"
+      "TypeScript",
+      "React",
+      "MUI",
+      "Recharts",
+      "WebSockets"
     ],
-    "role": "Frontend Developer",
-    "year": 2023,
+    "role": "Full-Stack Developer",
+    "year": 2025,
     "links": {
-      "demo": "https://shop.example.com",
-      "github": "https://github.com/username/ecommerce-platform"
+      "case_study": "/projects/gridai-ml-interface"
     },
-    "badges": ["JAMstack", "Performance"],
+    "badges": ["Realtime", "ML"],
     "priority": 3,
     "featured": true,
     "sceneRef": {
-      "position": { "x": 3, "y": -0.5, "z": 1 },
-      "rotation": { "x": 0, "y": -0.3, "z": 0 },
-      "scale": 0.9
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "scale": 1
     },
     "metadata": {
-      "challenge": "Build a fast, scalable e-commerce solution with excellent UX",
-      "solution": "Leveraged JAMstack architecture with headless CMS and edge computing",
+      "challenge": "Visualize live grid data and model outputs with performance and accessibility in mind",
+      "solution": "Built modular components, efficient charts, and WebSocket streaming with graceful fallbacks",
       "results": [
-        "95+ Lighthouse score",
-        "2.1s average load time",
-        "15% conversion rate"
+        "Smooth real-time updates",
+        "A11y-first keyboard navigation",
+        "Clear alerting for anomalies"
       ],
+      "architecture": "Next.js App Router frontend pulling from streaming APIs; component-driven design",
       "highlights": [
-        "Headless architecture",
-        "Advanced search",
-        "Payment integration"
+        "Lazy-loaded charts",
+        "Skeleton loading & suspense",
+        "SEO metadata & sitemap"
+      ]
+    }
+  },
+  {
+    "slug": "gymbros-android-app",
+    "title": "GymBros — Android App",
+    "tagline": "Workout plans, tracking, and profiles",
+    "description": "A production-quality Android app with MVVM architecture, Retrofit APIs, Room caching, and Kotlin interoperability. Includes auth, error handling, and CI/CD.",
+    "thumbnail": {
+      "src": "https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=800&h=600&fit=crop&crop=center",
+      "alt": "Android app screens for workouts and tracking",
+      "width": 800,
+      "height": 600,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+    },
+    "gallery": [
+      {
+        "src": "https://images.unsplash.com/photo-1558611848-73f7eb4001a1?w=1920&h=1080&fit=crop&crop=center",
+        "alt": "Workout plan list and details",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1920&h=1080&fit=crop&crop=center",
+        "alt": "Progress charts and profile",
+        "width": 1920,
+        "height": 1080
+      }
+    ],
+    "stack": [
+      "Java",
+      "Kotlin",
+      "Android",
+      "Retrofit",
+      "Room",
+      "JWT/OAuth",
+      "GitHub Actions",
+      "Gradle"
+    ],
+    "role": "Android Developer",
+    "year": 2023,
+    "links": {
+      "case_study": "/projects/gymbros-android-app"
+    },
+    "badges": ["Mobile", "Android"],
+    "priority": 4,
+    "featured": false,
+    "sceneRef": {
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "scale": 1
+    },
+    "metadata": {
+      "challenge": "Deliver reliable offline-capable workout tracking with clean architecture",
+      "solution": "MVVM modules with Retrofit and Room, plus robust auth and CI/CD",
+      "results": [
+        "Reduced crash rate via tests & lint",
+        "Signed builds for beta tracks",
+        "Clear runbooks and monitoring"
+      ],
+      "architecture": "Modular MVVM with repository pattern; Retrofit + Room; CI via GitHub Actions",
+      "highlights": [
+        "Instrumentation tests (Espresso)",
+        "Static analysis (Android Lint)",
+        "Graceful error handling & retries"
+      ]
+    }
+  },
+  {
+    "slug": "csharp-projects-portfolio",
+    "title": "C# Projects Portfolio (10 apps)",
+    "tagline": "Desktop apps, APIs, games, and multimedia",
+    "description": "A collection of 10 C# applications exploring Windows Forms, API integration, game development, and multimedia programming.",
+    "thumbnail": {
+      "src": "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=800&h=600&fit=crop&crop=center",
+      "alt": "C# code editor with running desktop app",
+      "width": 800,
+      "height": 600,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+    },
+    "gallery": [
+      {
+        "src": "https://images.unsplash.com/photo-1556157382-97eda2d62296?w=1920&h=1080&fit=crop&crop=center",
+        "alt": "Windows desktop apps collage",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1920&h=1080&fit=crop&crop=center",
+        "alt": "Code and UI previews",
+        "width": 1920,
+        "height": 1080
+      }
+    ],
+    "stack": [
+      "C#",
+      "WinForms",
+      "Unity",
+      "NAudio",
+      "Google Maps API",
+      "REST APIs"
+    ],
+    "role": "C# Developer",
+    "year": 2023,
+    "links": {
+      "case_study": "/projects/csharp-projects-portfolio"
+    },
+    "badges": ["Learning", "Desktop", "Games"],
+    "priority": 5,
+    "featured": false,
+    "sceneRef": {
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "scale": 1
+    },
+    "metadata": {
+      "challenge": "Rapidly build breadth across UI, math, mapping, multimedia, and game logic",
+      "solution": "Focused small apps with clear scopes to practice patterns and APIs",
+      "results": [
+        "10 complete mini-apps",
+        "Reusable helpers and patterns",
+        "Improved problem decomposition"
+      ],
+      "architecture": "WinForms for desktop utilities, Unity for games, and API-backed modules",
+      "highlights": [
+        "Web browser, digital clock, and unit converters",
+        "Google Maps desktop integration",
+        "Ping Pong game and music player"
+      ]
+    }
+  },
+  {
+    "slug": "optify-web-design",
+    "title": "Optify — Web Design Project",
+    "tagline": "Music discovery with Spotify integrations",
+    "description": "A web project that recommends genres and playlists based on user preferences, integrating Spotify API/UI and following solid design practices.",
+    "thumbnail": {
+      "src": "https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?w=800&h=600&fit=crop&crop=center",
+      "alt": "Music interface with playlists and recommendations",
+      "width": 800,
+      "height": 600,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+    },
+    "gallery": [
+      {
+        "src": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1920&h=1080&fit=crop&crop=center",
+        "alt": "Playlist recommendations UI",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1920&h=1080&fit=crop&crop=center",
+        "alt": "Spotify API integration screens",
+        "width": 1920,
+        "height": 1080
+      }
+    ],
+    "stack": ["HTML", "CSS", "JavaScript", "Spotify API", "Python", "Java"],
+    "role": "Web Developer",
+    "year": 2022,
+    "links": {
+      "case_study": "/projects/optify-web-design"
+    },
+    "badges": ["UI/UX", "API"],
+    "priority": 6,
+    "featured": false,
+    "sceneRef": {
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "scale": 1
+    },
+    "metadata": {
+      "challenge": "Recommend music effectively while keeping the UI simple and accessible",
+      "solution": "Designed flows, wireframes, and implemented Spotify API with clean front-end",
+      "results": [
+        "Responsive layout",
+        "Usability improvements from testing",
+        "Clear genre and playlist journeys"
+      ],
+      "architecture": "Classic web stack with API integration modules",
+      "highlights": [
+        "Design guidelines and sitemaps",
+        "Playlist and genre recommenders",
+        "Continuous UI refinements"
+      ]
+    }
+  },
+  {
+    "slug": "memory-game-c",
+    "title": "Memory Game — C",
+    "tagline": "Terminal-based single-player memory game",
+    "description": "A C-based memory game built in a terminal environment with score tracking, boolean checks for correctness, and structured loops.",
+    "thumbnail": {
+      "src": "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?w=800&h=600&fit=crop&crop=center",
+      "alt": "Retro terminal screen with game text",
+      "width": 800,
+      "height": 600,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+    },
+    "gallery": [
+      {
+        "src": "https://images.unsplash.com/photo-1526378722484-bd91ca387e72?w=1920&h=1080&fit=crop&crop=center",
+        "alt": "Terminal UI and score tracking",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "src": "https://images.unsplash.com/photo-1517404215738-15263e9f9178?w=1920&h=1080&fit=crop&crop=center",
+        "alt": "Game loop and logic",
+        "width": 1920,
+        "height": 1080
+      }
+    ],
+    "stack": ["C", "Cygwin"],
+    "role": "C Developer",
+    "year": 2021,
+    "links": {
+      "case_study": "/projects/memory-game-c"
+    },
+    "badges": ["Game", "C"],
+    "priority": 7,
+    "featured": false,
+    "sceneRef": {
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "scale": 1
+    },
+    "metadata": {
+      "challenge": "Implement a complete game loop and scoring in pure C within a terminal environment",
+      "solution": "Structured loops, boolean checks, and careful input validation",
+      "results": [
+        "Meets spec with reliable scoring",
+        "Clear runbook-style documentation",
+        "Improved low-level debugging skills"
+      ],
+      "architecture": "Single-binary C program targeting Cygwin terminal",
+      "highlights": [
+        "Score persistence and validation",
+        "Loop control patterns",
+        "Lightweight I/O handling"
       ]
     }
   }

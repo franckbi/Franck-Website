@@ -23,14 +23,17 @@ export function ProjectCard({
   const [imageLoaded, setImageLoaded] = useState(false);
   const analytics = useProjectAnalytics(project.slug);
 
+  // Canonical details route for all projects
+  const detailsUrl = `/projects/${project.slug}`;
+
   const handleCardClick = () => {
     analytics.trackProjectView('list');
 
     if (onClick) {
       onClick();
     } else {
-      // Default behavior: navigate to project detail page
-      window.location.href = `/projects/${project.slug}`;
+      // Default behavior: navigate to canonical project detail page
+      window.location.href = detailsUrl;
     }
   };
 
@@ -121,7 +124,7 @@ export function ProjectCard({
             </button>
           )}
           <Link
-            href={`/projects/${project.slug}`}
+            href={detailsUrl}
             className="bg-primary hover:bg-primary/90 text-primary-foreground p-2 rounded-full shadow-lg transition-colors inline-flex items-center justify-center"
             title="View Details"
             aria-label={`View details for ${project.title}`}
@@ -190,7 +193,7 @@ export function ProjectCard({
             </button>
           )}
           <Link
-            href={`/projects/${project.slug}`}
+            href={detailsUrl}
             className="text-sm text-primary hover:text-primary/80 font-medium flex items-center gap-1"
             onClick={e => e.stopPropagation()}
           >

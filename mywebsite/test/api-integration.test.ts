@@ -1,37 +1,42 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { NextRequest } from 'next/server';
-import { POST } from '@/app/api/contact/route';
+
+// Note: route import removed to allow mocks to be applied before module initialization
 
 // Mock Resend
 vi.mock('resend', () => ({
   Resend: vi.fn().mockImplementation(() => ({
     emails: {
+      // Route expects { data: { id } , error: null } shape
       send: vi.fn().mockResolvedValue({
-        id: 'test-email-id',
-        from: 'noreply@example.com',
-        to: 'admin@example.com',
-        subject: 'New Contact Form Submission',
+        data: {
+          id: 'test-email-id',
+        },
+        error: null,
       }),
     },
   })),
 }));
 
-// Mock rate limiting
+// Mock rate limiting (synchronous by default because route does not await)
 vi.mock('@/lib/utils/rate-limit', () => ({
-  rateLimit: vi.fn().mockResolvedValue({ success: true }),
-}));
-
-// Mock environment variables
-vi.mock('process', () => ({
-  env: {
-    RESEND_API_KEY: 'test-api-key',
-    CONTACT_EMAIL: 'admin@example.com',
-    NODE_ENV: 'test',
-  },
+  rateLimit: vi.fn().mockImplementation(() => ({
+    success: true,
+    remaining: 3,
+    resetTime: Date.now() + 15 * 60 * 1000,
+  })),
+  getRateLimitHeaders: (remaining: number, resetTime: number) => ({
+    'x-rate-limit-remaining': String(remaining),
+    'x-rate-limit-reset': String(Math.ceil(resetTime / 1000)),
+  }),
 }));
 
 describe('API Integration Tests', () => {
   beforeEach(() => {
+    // Ensure environment variables are set for modules imported during tests
+    process.env.RESEND_API_KEY = 'test-api-key';
+    process.env.CONTACT_EMAIL = 'admin@example.com';
+
     vi.clearAllMocks();
   });
 
@@ -40,6 +45,14 @@ describe('API Integration Tests', () => {
   });
 
   describe('Contact API Route', () => {
+    let POST: any;
+
+    beforeEach(async () => {
+      // Import the route after mocks so module-level initialization sees mocked env and modules
+      const mod = await import('@/app/api/contact/route');
+      POST = mod.POST;
+    });
+
     const createRequest = (body: any) => {
       return new NextRequest('http://localhost:3000/api/contact', {
         method: 'POST',
@@ -103,11 +116,11 @@ describe('API Integration Tests', () => {
 
     it('should handle rate limiting', async () => {
       const { rateLimit } = await import('@/lib/utils/rate-limit');
-      vi.mocked(rateLimit).mockResolvedValueOnce({
+      // Use mockReturnValueOnce because the route calls rateLimit synchronously
+      vi.mocked(rateLimit).mockReturnValueOnce({
         success: false,
-        limit: 5,
         remaining: 0,
-        reset: Date.now() + 60000,
+        resetTime: Date.now() + 60000,
       });
 
       const validData = {
@@ -248,19 +261,24 @@ describe('API Integration Tests', () => {
       });
 
       const { loadProjects } = await import('@/lib/utils/content-loader');
-      const projects = await loadProjects();
+      const result = await loadProjects();
 
-      expect(projects).toHaveLength(1);
-      expect(projects[0]).toHaveProperty('slug', 'test-project');
-      expect(projects[0]).toHaveProperty('title', 'Test Project');
+      // content-loader returns ContentResult
+      expect(result.error).toBeNull();
+      expect(result.data).toHaveLength(1);
+      expect(result.data![0]).toHaveProperty('slug', 'test-project');
+      expect(result.data![0]).toHaveProperty('title', 'Test Project');
     });
 
     it('should handle data loading failures', async () => {
       global.fetch = vi.fn().mockRejectedValue(new Error('Network error'));
 
       const { loadProjects } = await import('@/lib/utils/content-loader');
+      const result = await loadProjects();
 
-      await expect(loadProjects()).rejects.toThrow('Network error');
+      expect(result.data).toBeNull();
+      expect(result.error).toBeDefined();
+      expect(result.error!.message).toContain('Network error');
     });
 
     it('should validate loaded data structure', async () => {
@@ -276,8 +294,11 @@ describe('API Integration Tests', () => {
       });
 
       const { loadProjects } = await import('@/lib/utils/content-loader');
+      const result = await loadProjects();
 
-      await expect(loadProjects()).rejects.toThrow('Validation error');
+      expect(result.data).toBeNull();
+      expect(result.error).toBeDefined();
+      expect(result.error!.message).toContain('Validation error');
     });
 
     it('should cache loaded data', async () => {
@@ -302,7 +323,7 @@ describe('API Integration Tests', () => {
       await loadProjects();
 
       // Fetch should only be called once due to caching
-      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect((global.fetch as any).mock.calls.length).toBe(1);
     });
   });
 });

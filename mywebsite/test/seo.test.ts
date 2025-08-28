@@ -122,7 +122,9 @@ describe('SEO Metadata Generation', () => {
   it('should generate about page metadata correctly', () => {
     const metadata = generateAboutMetadata();
 
-    expect(metadata.title).toBe('About - Portfolio Developer | Portfolio');
+    expect(metadata.title).toBe(
+      'About - FRANCK BIYOGUE BI NDOUTOUME | Portfolio'
+    );
     expect(metadata.description).toContain(
       'background, skills, and experience'
     );
@@ -142,8 +144,10 @@ describe('Structured Data Generation', () => {
 
     expect(schema['@context']).toBe('https://schema.org');
     expect(schema['@type']).toBe('Person');
-    expect(schema.name).toBe('Portfolio Developer');
-    expect(schema.jobTitle).toBe('Full-Stack Developer & 3D Designer');
+    expect(schema.name).toBe('FRANCK BIYOGUE BI NDOUTOUME');
+    expect(schema.jobTitle).toBe(
+      'Full-Stack Software Engineer — AWS · Next.js · Terraform'
+    );
     expect(schema.knowsAbout).toEqual(
       expect.arrayContaining(['JavaScript', 'TypeScript', 'React', 'Three.js'])
     );
@@ -225,10 +229,12 @@ describe('SEO Configuration', () => {
       description: 'Test',
     });
 
-    expect(metadata.robots?.index).toBe(true);
-    expect(metadata.robots?.follow).toBe(true);
-    expect(metadata.robots?.googleBot?.index).toBe(true);
-    expect(metadata.robots?.googleBot?.follow).toBe(true);
+    const robots = metadata.robots as any;
+
+    expect(robots.index).toBe(true);
+    expect(robots.follow).toBe(true);
+    expect((robots.googleBot as any).index).toBe(true);
+    expect((robots.googleBot as any).follow).toBe(true);
   });
 
   it('should include proper Open Graph data', () => {
@@ -238,9 +244,11 @@ describe('SEO Configuration', () => {
       image: '/test-image.jpg',
     });
 
-    expect(metadata.openGraph?.type).toBe('website');
-    expect(metadata.openGraph?.locale).toBe('en_US');
-    expect(metadata.openGraph?.images).toEqual([
+    const og = metadata.openGraph as any;
+
+    expect(og.type).toBe('website');
+    expect(og.locale).toBe('en_US');
+    expect(og.images).toEqual([
       {
         url: 'https://portfolio.example.com/test-image.jpg',
         width: 1200,
@@ -257,11 +265,11 @@ describe('SEO Configuration', () => {
       image: '/test-image.jpg',
     });
 
-    expect(metadata.twitter?.card).toBe('summary_large_image');
-    expect(metadata.twitter?.site).toBe('@portfolio_dev');
-    expect(metadata.twitter?.creator).toBe('@portfolio_dev');
-    expect(metadata.twitter?.images).toEqual([
-      'https://portfolio.example.com/test-image.jpg',
-    ]);
+    const tw = metadata.twitter as any;
+
+    expect(tw.card).toBe('summary_large_image');
+    expect(tw.site).toBe('@franckbi');
+    expect(tw.creator).toBe('@franckbi');
+    expect(tw.images).toEqual(['https://portfolio.example.com/test-image.jpg']);
   });
 });

@@ -62,7 +62,7 @@ export function ContactLinks({ className = '' }: ContactLinksProps) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <LinkItem
-          href="/resume.pdf"
+          href="/FranckNdoutoumeResume.pdf"
           icon="📄"
           label="Download Resume"
           description="View my complete professional background"
@@ -70,7 +70,7 @@ export function ContactLinks({ className = '' }: ContactLinksProps) {
         />
 
         <LinkItem
-          href="https://github.com/johndoe"
+          href="https://github.com/franckbi"
           icon="🐙"
           label="GitHub"
           description="Explore my open source contributions"
@@ -78,7 +78,7 @@ export function ContactLinks({ className = '' }: ContactLinksProps) {
         />
 
         <LinkItem
-          href="https://linkedin.com/in/johndoe"
+          href="https://www.linkedin.com/in/franck-biyogue-bi-ndoutoume-a846a3220/"
           icon="💼"
           label="LinkedIn"
           description="Connect with me professionally"
@@ -86,18 +86,10 @@ export function ContactLinks({ className = '' }: ContactLinksProps) {
         />
 
         <LinkItem
-          href="mailto:john.doe@example.com"
+          href="mailto:franckbbiy@gmail.com"
           icon="✉️"
           label="Email"
           description="Send me a direct message"
-        />
-
-        <LinkItem
-          href="https://twitter.com/johndoe"
-          icon="🐦"
-          label="Twitter"
-          description="Follow my thoughts and updates"
-          external
         />
 
         <LinkItem

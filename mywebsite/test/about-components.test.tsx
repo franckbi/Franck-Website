@@ -19,9 +19,9 @@ describe('About Components', () => {
 
       expect(screen.getByText('About Me')).toBeInTheDocument();
       expect(
-        screen.getByText(/passionate full-stack developer/i)
+        screen.getByText(/software engineer with ~2 years/i)
       ).toBeInTheDocument();
-      expect(screen.getByText('5+')).toBeInTheDocument();
+      expect(screen.getByText('2')).toBeInTheDocument();
       expect(screen.getByText('Years Experience')).toBeInTheDocument();
     });
   });
@@ -146,16 +146,16 @@ describe('About Components', () => {
       render(<ContactLinks />);
 
       const resumeLink = screen.getByText('Download Resume').closest('a');
-      expect(resumeLink).toHaveAttribute('href', '/resume.pdf');
+      expect(resumeLink).toHaveAttribute('href', '/FranckNdoutoumeResume.pdf');
       expect(resumeLink).toHaveAttribute('download');
 
       const githubLink = screen.getByText('GitHub').closest('a');
-      expect(githubLink).toHaveAttribute('href', 'https://github.com/johndoe');
+      expect(githubLink).toHaveAttribute('href', 'https://github.com/franckbi');
       expect(githubLink).toHaveAttribute('target', '_blank');
       expect(githubLink).toHaveAttribute('rel', 'noopener noreferrer');
 
       const emailLink = screen.getByText('Email').closest('a');
-      expect(emailLink).toHaveAttribute('href', 'mailto:john.doe@example.com');
+      expect(emailLink).toHaveAttribute('href', 'mailto:franckbbiy@gmail.com');
     });
   });
 });

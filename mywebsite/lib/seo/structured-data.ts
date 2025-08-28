@@ -66,10 +66,10 @@ export interface WebsiteSchema {
 }
 
 const SITE_CONFIG = {
-  name: 'Portfolio Developer',
+  name: 'FRANCK BIYOGUE BI NDOUTOUME',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://portfolio.example.com',
-  jobTitle: 'Full-Stack Developer & 3D Designer',
-  image: '/images/profile.jpg',
+  jobTitle: 'Full-Stack Software Engineer — AWS · Next.js · Terraform',
+  image: '/picture.jpg',
   location: {
     locality: 'San Francisco',
     region: 'CA',
@@ -90,9 +90,8 @@ const SITE_CONFIG = {
     'Backend Development',
   ],
   socialLinks: [
-    'https://github.com/username',
-    'https://linkedin.com/in/username',
-    'https://twitter.com/username',
+    'https://github.com/franckbi',
+    'https://www.linkedin.com/in/franck-biyogue-bi-ndoutoume-a846a3220/',
   ],
 };
 

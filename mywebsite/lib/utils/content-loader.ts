@@ -68,7 +68,7 @@ async function loadContent<T>(
           data: null,
           error: {
             message: `Failed to read local content file at ${filePath}: ${err instanceof Error ? err.message : String(err)}`,
-            code: 'FILE_READ_ERROR',
+            code: 'NETWORK_ERROR',
           },
         };
       }

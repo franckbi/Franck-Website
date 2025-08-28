@@ -19,7 +19,7 @@ export function HeroSection({ projects }: HeroSectionProps) {
         <div className="max-w-7xl w-full text-center space-y-8">
           <div className="space-y-6">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-              Creative Developer
+              Franck Biyogue Bi Ndoutoume- Portfolio
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Building immersive web experiences with{' '}
@@ -124,7 +124,7 @@ export function HeroSection({ projects }: HeroSectionProps) {
       <div className="max-w-7xl w-full text-center space-y-8">
         <div className="space-y-6">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-            Creative Developer
+            Franck Biyogue Bi Ndoutoume- Portfolio
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Building immersive web experiences with{' '}

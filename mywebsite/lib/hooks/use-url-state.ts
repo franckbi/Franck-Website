@@ -79,6 +79,7 @@ export function useUrlState(options: UseUrlStateOptions = {}) {
   );
 
   // Initialize state from URL on mount
+  // Note: run once to prevent infinite loops from changing callback identities
   useEffect(() => {
     const urlState = parseUrlState();
 
@@ -93,7 +94,8 @@ export function useUrlState(options: UseUrlStateOptions = {}) {
     if (options.onSearchChange) {
       options.onSearchChange(urlState.search);
     }
-  }, [parseUrlState, options]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     updateUrl,

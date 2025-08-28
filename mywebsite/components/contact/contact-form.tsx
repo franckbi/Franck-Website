@@ -65,10 +65,10 @@ export function ContactForm() {
     const errors: FormErrors = {};
     result.error.issues.forEach(issue => {
       const field = issue.path[0] as string;
-      if (field !== 'website' && field in errors) {
-        // Don't show honeypot errors
-        errors[field as keyof FormErrors] = issue.message;
-      }
+      // Ignore honeypot field errors
+      if (field === 'website') return;
+      // Map zod issue message to the corresponding form field
+      errors[field as keyof FormErrors] = issue.message;
     });
 
     setState(prev => ({ ...prev, errors }));
@@ -93,34 +93,42 @@ export function ContactForm() {
 
     analytics.trackEvent('contact-form-submit-start');
 
+    // Submit to Formspree (client-side) instead of the local /api/contact route
     try {
-      const response = await fetch('/api/contact', {
+      const endpoint =
+        process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT ||
+        'https://formspree.io/f/yourFormId';
+
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        website: formData.website, // honeypot
+        _subject: `Portfolio Contact: ${formData.name}`,
+      };
+
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        if (response.status === 429) {
-          setState(prev => ({
-            ...prev,
-            isSubmitting: false,
-            errors: {
-              general: `${data.message} Please try again in ${Math.ceil(data.retryAfter / 60)} minutes.`,
-            },
-          }));
-          return;
-        }
-
-        if (response.status === 400 && data.details) {
+        // Formspree typically returns 422 with an `errors` array for validation
+        if (response.status === 422 && data?.errors) {
           const fieldErrors: FormErrors = {};
-          data.details.forEach((detail: { field: string; message: string }) => {
-            fieldErrors[detail.field as keyof FormErrors] = detail.message;
+          data.errors.forEach((err: any) => {
+            const field = err.field || 'general';
+            if (field === 'website') return; // ignore honeypot
+            fieldErrors[field as keyof FormErrors] =
+              err.message || err.error || 'Invalid input';
           });
+
           setState(prev => ({
             ...prev,
             isSubmitting: false,
@@ -129,10 +137,17 @@ export function ContactForm() {
           return;
         }
 
-        throw new Error(data.message || 'Failed to send message');
+        setState(prev => ({
+          ...prev,
+          isSubmitting: false,
+          errors: {
+            general: data?.error || data?.message || 'Failed to send message',
+          },
+        }));
+        return;
       }
 
-      // Success
+      // Success (keep existing success behavior)
       setState(prev => ({
         ...prev,
         isSubmitting: false,
@@ -147,12 +162,7 @@ export function ContactForm() {
       });
 
       // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        message: '',
-        website: '',
-      });
+      setFormData({ name: '', email: '', message: '', website: '' });
     } catch (error) {
       analytics.endInteraction('contact-form-submit');
       analytics.trackEvent('contact-form-error', {

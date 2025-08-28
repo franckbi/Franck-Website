@@ -1,0 +1,179 @@
+[
+  {
+    "slug": "3d-portfolio-website",
+    "title": "3D Portfolio Website",
+    "tagline": "Interactive Three.js portfolio with WebGL fallbacks",
+    "description": "A modern portfolio website built with Next.js 14 and react-three-fiber, featuring interactive 3D scenes that showcase projects in an immersive studio environment. The site implements comprehensive accessibility features and performance optimizations.",
+    "thumbnail": {
+      "src": "/images/projects/3d-portfolio/thumbnail.jpg",
+      "alt": "3D Portfolio Website thumbnail showing floating project cards",
+      "width": 800,
+      "height": 600,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+    },
+    "gallery": [
+      {
+        "src": "/images/projects/3d-portfolio/hero.jpg",
+        "alt": "3D studio scene with floating project cards",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "src": "/images/projects/3d-portfolio/projects-grid.jpg",
+        "alt": "3D projects grid layout with orbital arrangement",
+        "width": 1920,
+        "height": 1080
+      }
+    ],
+    "stack": [
+      "Next.js",
+      "TypeScript",
+      "Three.js",
+      "React Three Fiber",
+      "Tailwind CSS",
+      "Framer Motion"
+    ],
+    "role": "Full-Stack Developer & 3D Designer",
+    "year": 2024,
+    "links": {
+      "demo": "https://portfolio.example.com",
+      "github": "https://github.com/username/3d-portfolio",
+      "case_study": "/projects/3d-portfolio-website"
+    },
+    "badges": ["Featured", "3D", "WebGL"],
+    "priority": 1,
+    "featured": true,
+    "sceneRef": {
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "scale": 1
+    },
+    "metadata": {
+      "challenge": "Create an engaging portfolio that stands out while maintaining accessibility and performance",
+      "solution": "Built a 3D studio environment with comprehensive fallbacks and progressive enhancement",
+      "results": [
+        "60 FPS on desktop",
+        "Full keyboard navigation",
+        "WCAG 2.1 AA compliance"
+      ],
+      "architecture": "Next.js App Router with react-three-fiber for 3D rendering",
+      "highlights": [
+        "WebGL context loss recovery",
+        "Draco model compression",
+        "Adaptive quality system"
+      ]
+    }
+  },
+  {
+    "slug": "task-management-app",
+    "title": "Task Management App",
+    "tagline": "Collaborative project management with real-time updates",
+    "description": "A full-stack task management application built with React and Node.js, featuring real-time collaboration, drag-and-drop interfaces, and comprehensive project tracking capabilities.",
+    "thumbnail": {
+      "src": "/images/projects/task-app/thumbnail.jpg",
+      "alt": "Task management app dashboard",
+      "width": 800,
+      "height": 600
+    },
+    "gallery": [
+      {
+        "src": "/images/projects/task-app/dashboard.jpg",
+        "alt": "Main dashboard with project overview",
+        "width": 1920,
+        "height": 1080
+      }
+    ],
+    "stack": [
+      "React",
+      "Node.js",
+      "PostgreSQL",
+      "Socket.io",
+      "Express",
+      "TypeScript"
+    ],
+    "role": "Full-Stack Developer",
+    "year": 2023,
+    "links": {
+      "demo": "https://tasks.example.com",
+      "github": "https://github.com/username/task-management"
+    },
+    "badges": ["Full-Stack", "Real-time"],
+    "priority": 2,
+    "featured": true,
+    "sceneRef": {
+      "position": { "x": -3, "y": 1, "z": 2 },
+      "rotation": { "x": 0, "y": 0.2, "z": 0 },
+      "scale": 0.8
+    },
+    "metadata": {
+      "challenge": "Enable seamless real-time collaboration for distributed teams",
+      "solution": "Implemented WebSocket-based real-time updates with optimistic UI patterns",
+      "results": [
+        "Sub-100ms update latency",
+        "99.9% uptime",
+        "500+ active users"
+      ],
+      "highlights": [
+        "Real-time collaboration",
+        "Drag-and-drop interface",
+        "Advanced filtering"
+      ]
+    }
+  },
+  {
+    "slug": "e-commerce-platform",
+    "title": "E-commerce Platform",
+    "tagline": "Modern shopping experience with headless architecture",
+    "description": "A scalable e-commerce platform built with modern JAMstack architecture, featuring headless CMS integration, advanced search capabilities, and optimized checkout flows.",
+    "thumbnail": {
+      "src": "/images/projects/ecommerce/thumbnail.jpg",
+      "alt": "E-commerce platform product page",
+      "width": 800,
+      "height": 600
+    },
+    "gallery": [
+      {
+        "src": "/images/projects/ecommerce/homepage.jpg",
+        "alt": "Homepage with featured products",
+        "width": 1920,
+        "height": 1080
+      }
+    ],
+    "stack": [
+      "Next.js",
+      "Shopify",
+      "GraphQL",
+      "Tailwind CSS",
+      "Stripe",
+      "Algolia"
+    ],
+    "role": "Frontend Developer",
+    "year": 2023,
+    "links": {
+      "demo": "https://shop.example.com",
+      "github": "https://github.com/username/ecommerce-platform"
+    },
+    "badges": ["JAMstack", "Performance"],
+    "priority": 3,
+    "featured": true,
+    "sceneRef": {
+      "position": { "x": 3, "y": -0.5, "z": 1 },
+      "rotation": { "x": 0, "y": -0.3, "z": 0 },
+      "scale": 0.9
+    },
+    "metadata": {
+      "challenge": "Build a fast, scalable e-commerce solution with excellent UX",
+      "solution": "Leveraged JAMstack architecture with headless CMS and edge computing",
+      "results": [
+        "95+ Lighthouse score",
+        "2.1s average load time",
+        "15% conversion rate"
+      ],
+      "highlights": [
+        "Headless architecture",
+        "Advanced search",
+        "Payment integration"
+      ]
+    }
+  }
+]

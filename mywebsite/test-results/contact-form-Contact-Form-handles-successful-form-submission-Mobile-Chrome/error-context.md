@@ -1,0 +1,99 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Skip to main content" [ref=e3] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e4]:
+      - navigation "Main navigation" [ref=e5]:
+        - generic [ref=e6]:
+          - link "Go to homepage" [ref=e8] [cursor=pointer]:
+            - /url: /
+            - text: Portfolio
+          - generic [ref=e9]:
+            - button "Switch to light theme" [ref=e10] [cursor=pointer]:
+              - img [ref=e11] [cursor=pointer]
+              - generic [ref=e13] [cursor=pointer]: Switch to light theme
+            - button "Toggle navigation menu" [ref=e14] [cursor=pointer]:
+              - generic [ref=e15] [cursor=pointer]: Open main menu
+              - img [ref=e16] [cursor=pointer]
+        - generic [ref=e18]:
+          - link "Home" [ref=e19] [cursor=pointer]:
+            - /url: /
+          - link "Projects" [ref=e20] [cursor=pointer]:
+            - /url: /projects
+          - link "About" [ref=e21] [cursor=pointer]:
+            - /url: /about
+          - link "Contact" [ref=e22] [cursor=pointer]:
+            - /url: /contact
+          - button "Enable low power mode" [ref=e25] [cursor=pointer]:
+            - img [ref=e26] [cursor=pointer]
+            - generic [ref=e28] [cursor=pointer]: Enable low power mode
+    - main [ref=e29]:
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - heading "Contact" [level=1] [ref=e33]
+          - paragraph [ref=e34]: Get in touch for opportunities and collaborations
+        - generic [ref=e36]:
+          - generic [ref=e37]: ✓
+          - heading "Message Sent Successfully!" [level=3] [ref=e38]
+          - paragraph [ref=e39]: Thank you for reaching out. I'll get back to you as soon as possible.
+          - button "Send another message" [ref=e40] [cursor=pointer]
+        - generic [ref=e42]:
+          - heading "Other Ways to Connect" [level=2] [ref=e43]
+          - generic [ref=e44]:
+            - paragraph [ref=e45]:
+              - text: Prefer email? You can also reach me directly at
+              - link "contact@example.com" [ref=e46] [cursor=pointer]:
+                - /url: mailto:contact@example.com
+            - paragraph [ref=e47]: Response time is typically within 24-48 hours.
+    - contentinfo [ref=e48]:
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - heading "Portfolio" [level=3] [ref=e52]
+            - paragraph [ref=e53]: Interactive 3D portfolio showcasing projects, skills, and professional experience.
+          - generic [ref=e54]:
+            - heading "Quick Links" [level=4] [ref=e55]
+            - navigation "Footer navigation" [ref=e56]:
+              - list [ref=e57]:
+                - listitem [ref=e58]:
+                  - link "Home" [ref=e59] [cursor=pointer]:
+                    - /url: /
+                - listitem [ref=e60]:
+                  - link "Projects" [ref=e61] [cursor=pointer]:
+                    - /url: /projects
+                - listitem [ref=e62]:
+                  - link "About" [ref=e63] [cursor=pointer]:
+                    - /url: /about
+                - listitem [ref=e64]:
+                  - link "Contact" [ref=e65] [cursor=pointer]:
+                    - /url: /contact
+                - listitem [ref=e66]:
+                  - link "Privacy Policy" [ref=e67] [cursor=pointer]:
+                    - /url: /privacy
+          - generic [ref=e68]:
+            - heading "Connect" [level=4] [ref=e69]
+            - generic [ref=e70]:
+              - link "Visit GitHub profile" [ref=e71] [cursor=pointer]:
+                - /url: https://github.com
+                - img [ref=e72] [cursor=pointer]
+              - link "Visit LinkedIn profile" [ref=e74] [cursor=pointer]:
+                - /url: https://linkedin.com
+                - img [ref=e75] [cursor=pointer]
+              - link "Visit Twitter profile" [ref=e77] [cursor=pointer]:
+                - /url: https://twitter.com
+                - img [ref=e78] [cursor=pointer]
+              - link "Visit Email profile" [ref=e80] [cursor=pointer]:
+                - /url: mailto:contact@example.com
+                - img [ref=e81] [cursor=pointer]
+            - generic [ref=e83]:
+              - paragraph [ref=e84]: Available for new opportunities
+              - link "Get in touch →" [ref=e85] [cursor=pointer]:
+                - /url: /contact
+        - generic [ref=e87]:
+          - paragraph [ref=e88]: © 2025 Portfolio. All rights reserved.
+          - paragraph [ref=e89]: Built with Next.js, Three.js, and Tailwind CSS
+  - alert [ref=e90]
+```

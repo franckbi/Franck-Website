@@ -1,0 +1,72 @@
+[
+  {
+    "date": "2024-01-01",
+    "title": "Senior Frontend Developer",
+    "company": "TechCorp Inc.",
+    "description": "Leading frontend development for enterprise applications, focusing on performance optimization and user experience. Mentoring junior developers and establishing best practices for React and TypeScript development.",
+    "technologies": ["React", "TypeScript", "Next.js", "GraphQL", "AWS"],
+    "type": "work"
+  },
+  {
+    "date": "2023-06-01",
+    "title": "3D Portfolio Website Launch",
+    "company": "Personal Project",
+    "description": "Launched an innovative 3D portfolio website using Three.js and react-three-fiber, featuring interactive project showcases and comprehensive accessibility features.",
+    "technologies": [
+      "Three.js",
+      "React Three Fiber",
+      "Next.js",
+      "TypeScript",
+      "WebGL"
+    ],
+    "type": "project"
+  },
+  {
+    "date": "2022-03-01",
+    "title": "Frontend Developer",
+    "company": "StartupXYZ",
+    "description": "Developed and maintained multiple React applications for a fast-growing startup. Implemented responsive designs, optimized performance, and integrated with various APIs and third-party services.",
+    "technologies": ["React", "JavaScript", "Node.js", "PostgreSQL", "Docker"],
+    "type": "work"
+  },
+  {
+    "date": "2021-09-01",
+    "title": "Full-Stack Bootcamp Graduate",
+    "company": "Code Academy",
+    "description": "Completed intensive 6-month full-stack web development bootcamp, covering modern JavaScript frameworks, backend development, databases, and deployment strategies.",
+    "technologies": ["JavaScript", "React", "Node.js", "Express", "MongoDB"],
+    "type": "education"
+  },
+  {
+    "date": "2021-06-01",
+    "title": "Task Management App",
+    "company": "Personal Project",
+    "description": "Built a collaborative task management application with real-time updates, drag-and-drop functionality, and comprehensive project tracking features.",
+    "technologies": ["React", "Node.js", "Socket.io", "PostgreSQL", "Express"],
+    "type": "project"
+  },
+  {
+    "date": "2021-01-01",
+    "title": "Junior Web Developer",
+    "company": "Digital Agency Co.",
+    "description": "Started career in web development, working on client websites and learning modern development practices. Gained experience with responsive design and content management systems.",
+    "technologies": ["HTML", "CSS", "JavaScript", "WordPress", "PHP"],
+    "type": "work"
+  },
+  {
+    "date": "2020-12-01",
+    "title": "First Open Source Contribution",
+    "company": "Open Source Community",
+    "description": "Made first significant contribution to an open source React component library, adding accessibility improvements and documentation updates.",
+    "technologies": ["React", "JavaScript", "Git", "Documentation"],
+    "type": "achievement"
+  },
+  {
+    "date": "2020-05-01",
+    "title": "Bachelor of Computer Science",
+    "company": "University of Technology",
+    "description": "Graduated with honors, focusing on software engineering principles, algorithms, and data structures. Completed capstone project on web application performance optimization.",
+    "technologies": ["Java", "Python", "C++", "Algorithms", "Data Structures"],
+    "type": "education"
+  }
+]

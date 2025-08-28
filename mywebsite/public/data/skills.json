@@ -1,0 +1,177 @@
+[
+  {
+    "name": "Frontend Development",
+    "skills": [
+      {
+        "name": "React",
+        "level": "expert",
+        "years": 5
+      },
+      {
+        "name": "TypeScript",
+        "level": "expert",
+        "years": 4
+      },
+      {
+        "name": "Next.js",
+        "level": "advanced",
+        "years": 3
+      },
+      {
+        "name": "Three.js",
+        "level": "advanced",
+        "years": 2
+      },
+      {
+        "name": "Tailwind CSS",
+        "level": "expert",
+        "years": 3
+      },
+      {
+        "name": "HTML/CSS",
+        "level": "expert",
+        "years": 6
+      },
+      {
+        "name": "JavaScript",
+        "level": "expert",
+        "years": 6
+      }
+    ]
+  },
+  {
+    "name": "Backend Development",
+    "skills": [
+      {
+        "name": "Node.js",
+        "level": "advanced",
+        "years": 4
+      },
+      {
+        "name": "Express.js",
+        "level": "advanced",
+        "years": 4
+      },
+      {
+        "name": "PostgreSQL",
+        "level": "intermediate",
+        "years": 3
+      },
+      {
+        "name": "MongoDB",
+        "level": "intermediate",
+        "years": 2
+      },
+      {
+        "name": "GraphQL",
+        "level": "intermediate",
+        "years": 2
+      },
+      {
+        "name": "REST APIs",
+        "level": "advanced",
+        "years": 4
+      }
+    ]
+  },
+  {
+    "name": "3D & Graphics",
+    "skills": [
+      {
+        "name": "Three.js",
+        "level": "advanced",
+        "years": 2
+      },
+      {
+        "name": "React Three Fiber",
+        "level": "advanced",
+        "years": 2
+      },
+      {
+        "name": "Blender",
+        "level": "intermediate",
+        "years": 3
+      },
+      {
+        "name": "WebGL",
+        "level": "intermediate",
+        "years": 2
+      },
+      {
+        "name": "GLSL",
+        "level": "beginner",
+        "years": 1
+      }
+    ]
+  },
+  {
+    "name": "Tools & DevOps",
+    "skills": [
+      {
+        "name": "Git",
+        "level": "expert",
+        "years": 6
+      },
+      {
+        "name": "Docker",
+        "level": "intermediate",
+        "years": 2
+      },
+      {
+        "name": "AWS",
+        "level": "intermediate",
+        "years": 2
+      },
+      {
+        "name": "Vercel",
+        "level": "advanced",
+        "years": 3
+      },
+      {
+        "name": "GitHub Actions",
+        "level": "intermediate",
+        "years": 2
+      },
+      {
+        "name": "Webpack",
+        "level": "intermediate",
+        "years": 3
+      }
+    ]
+  },
+  {
+    "name": "Testing & Quality",
+    "skills": [
+      {
+        "name": "Jest",
+        "level": "advanced",
+        "years": 3
+      },
+      {
+        "name": "React Testing Library",
+        "level": "advanced",
+        "years": 3
+      },
+      {
+        "name": "Playwright",
+        "level": "intermediate",
+        "years": 1
+      },
+      {
+        "name": "Vitest",
+        "level": "intermediate",
+        "years": 1
+      },
+      {
+        "name": "ESLint",
+        "level": "advanced",
+        "years": 4
+      },
+      {
+        "name": "Prettier",
+        "level": "expert",
+        "years": 4
+      }
+    ]
+  }
+]

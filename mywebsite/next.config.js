@@ -119,7 +119,10 @@ const nextConfig = {
 
   // Enable experimental features for better performance
   experimental: {
-    optimizeCss: true,
+    // Disable built-in CSS optimization that depends on the `critters` package
+    // during build. This avoids requiring critters to be installed in the
+    // build environment.
+    optimizeCss: false,
     optimizePackageImports: ['lucide-react', '@react-three/drei'],
   },
 };

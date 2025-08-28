@@ -29,15 +29,6 @@ export function ProjectFilters({
   className = '',
 }: ProjectFiltersProps) {
   const [showFilters, setShowFilters] = useState(false);
-  const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
-
-  // Debounce search query as per requirements (100ms delay)
-  const debouncedSearchQuery = useDebouncedValue(localSearchQuery, 100);
-
-  // Update parent when debounced value changes
-  React.useEffect(() => {
-    onSearchChange(debouncedSearchQuery);
-  }, [debouncedSearchQuery, onSearchChange]);
 
   // Extract available filter options from projects
   const filterOptions = useMemo(() => {
@@ -90,17 +81,14 @@ export function ProjectFilters({
           <input
             type="text"
             placeholder="Search projects..."
-            value={localSearchQuery}
-            onChange={e => setLocalSearchQuery(e.target.value)}
+            value={searchQuery}
+            onChange={e => onSearchChange(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border border-input rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent"
             aria-label="Search projects"
           />
-          {localSearchQuery && (
+          {searchQuery && (
             <button
-              onClick={() => {
-                setLocalSearchQuery('');
-                onSearchChange('');
-              }}
+              onClick={() => onSearchChange('')}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
               aria-label="Clear search"
             >

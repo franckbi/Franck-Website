@@ -31,6 +31,7 @@ function ProjectsContent() {
     setViewMode,
     updateFilters,
     setSearchQuery,
+    setSearchQueryImmediate,
     clearFilters,
     setLoading,
     setError,
@@ -47,7 +48,7 @@ function ProjectsContent() {
       setViewMode(mode);
     },
     onSearchChange: search => {
-      setSearchQuery(search);
+      setSearchQueryImmediate(search);
     },
   });
 

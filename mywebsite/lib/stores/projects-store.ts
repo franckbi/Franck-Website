@@ -23,6 +23,7 @@ interface ProjectsState {
   setViewMode: (mode: '3d' | 'list') => void;
   updateFilters: (filters: Partial<ProjectFilters>) => void;
   setSearchQuery: (query: string) => void;
+  setSearchQueryImmediate: (query: string) => void;
   clearFilters: () => void;
   applyFilters: () => void;
   setLoading: (loading: boolean) => void;
@@ -35,6 +36,9 @@ const initialFilters: ProjectFilters = {
   featured: null,
   search: '',
 };
+
+// Debounce helper
+let searchTimeout: NodeJS.Timeout | null = null;
 
 export const useProjectsStore = create<ProjectsState>()(
   persist(
@@ -64,13 +68,33 @@ export const useProjectsStore = create<ProjectsState>()(
       },
 
       setSearchQuery: (query: string) => {
+        // Clear existing timeout
+        if (searchTimeout) {
+          clearTimeout(searchTimeout);
+        }
+
+        // Update search query immediately for UI responsiveness
         set({ searchQuery: query });
-        get().updateFilters({ search: query });
+
+        // Debounce the filtering
+        searchTimeout = setTimeout(() => {
+          get().applyFilters();
+        }, 100);
+      },
+
+      setSearchQueryImmediate: (query: string) => {
+        set({ searchQuery: query });
+        get().applyFilters();
       },
 
       clearFilters: () => {
+        // Clear any pending search timeout
+        if (searchTimeout) {
+          clearTimeout(searchTimeout);
+        }
+
         set({
-          filters: initialFilters,
+          filters: { ...initialFilters, search: '' },
           searchQuery: '',
         });
         get().applyFilters();
@@ -106,9 +130,10 @@ export const useProjectsStore = create<ProjectsState>()(
           );
         }
 
-        // Apply search filter
-        if (searchQuery.trim()) {
-          const query = searchQuery.toLowerCase().trim();
+        // Apply search filter (use searchQuery instead of filters.search)
+        const searchTerm = searchQuery.trim() || filters.search?.trim() || '';
+        if (searchTerm) {
+          const query = searchTerm.toLowerCase();
           filtered = filtered.filter(
             project =>
               project.title.toLowerCase().includes(query) ||

@@ -3,10 +3,13 @@
  * Displays skills organized by category with visual proficiency levels
  */
 
+'use client';
+
+import { useEffect, useState } from 'react';
 import type { SkillCategory, SkillLevel } from '@/lib/types/content';
 
 interface SkillsMatrixProps {
-  skillCategories: SkillCategory[];
+  skillCategories?: SkillCategory[];
   className?: string;
 }
 
@@ -47,17 +50,29 @@ function getSkillLevelWidth(level: SkillLevel): string {
 }
 
 function SkillItem({ name, level, years }: SkillItemProps) {
-  const levelColor = getSkillLevelColor(level);
-  const levelWidth = getSkillLevelWidth(level);
+  // Normalize incoming level (handles 'Advanced', 'advanced', etc.)
+  const normalizedLevel = (
+    (level as string) || 'beginner'
+  ).toLowerCase() as SkillLevel;
+
+  const levelColor = getSkillLevelColor(normalizedLevel);
+  const levelWidth = getSkillLevelWidth(normalizedLevel);
+
+  // Ensure years is a number
+  const safeYears = Number.isFinite(years) ? years : 0;
+
+  // Capitalize label for display
+  const displayLabel =
+    normalizedLevel.charAt(0).toUpperCase() + normalizedLevel.slice(1);
 
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">
         <span className="font-medium">{name}</span>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <span className="capitalize">{level}</span>
+          <span className="capitalize">{displayLabel}</span>
           <span>•</span>
-          <span>{years}y</span>
+          <span>{safeYears}y</span>
         </div>
       </div>
       <div className="w-full bg-muted rounded-full h-2">
@@ -65,17 +80,17 @@ function SkillItem({ name, level, years }: SkillItemProps) {
           className={`h-2 rounded-full transition-all duration-300 ${levelColor} ${levelWidth}`}
           role="progressbar"
           aria-valuenow={
-            level === 'expert'
+            normalizedLevel === 'expert'
               ? 100
-              : level === 'advanced'
+              : normalizedLevel === 'advanced'
                 ? 75
-                : level === 'intermediate'
+                : normalizedLevel === 'intermediate'
                   ? 50
                   : 25
           }
           aria-valuemin={0}
           aria-valuemax={100}
-          aria-label={`${name} proficiency: ${level}`}
+          aria-label={`${name} proficiency: ${normalizedLevel}`}
         />
       </div>
     </div>
@@ -86,6 +101,60 @@ export function SkillsMatrix({
   skillCategories,
   className = '',
 }: SkillsMatrixProps) {
+  const [localCategories, setLocalCategories] = useState<
+    SkillCategory[] | null
+  >(skillCategories ?? null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // If parent provided categories, no need to fetch
+    if (skillCategories && skillCategories.length > 0) return;
+    // If already loaded, skip
+    if (localCategories !== null) return;
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const TIMEOUT_MS = 8000;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+    const load = async () => {
+      setLoading(true);
+      try {
+        timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+        const res = await fetch('/data/skills.json', { signal });
+        if (!res.ok) throw new Error(`Failed to load skills: ${res.status}`);
+
+        const data: SkillCategory[] = await res.json();
+        setLocalCategories(data);
+        setError(null);
+      } catch (err: any) {
+        if (err && err.name === 'AbortError') {
+          console.error('skills.json fetch aborted/timed out');
+          setError('Request timed out while loading skills.');
+        } else {
+          console.error('Failed to fetch skills.json', err);
+          setError(err instanceof Error ? err.message : String(err));
+        }
+      } finally {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+        setLoading(false);
+      }
+    };
+
+    load();
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      controller.abort();
+    };
+  }, [skillCategories, localCategories]);
+
+  const categories = skillCategories ?? localCategories ?? [];
+
   return (
     <section className={`space-y-8 ${className}`}>
       <div className="space-y-2">
@@ -95,28 +164,38 @@ export function SkillsMatrix({
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {skillCategories.map(category => (
-          <div
-            key={category.name}
-            className="space-y-4 p-6 rounded-lg border bg-card"
-          >
-            <h3 className="text-lg font-semibold text-primary">
-              {category.name}
-            </h3>
-            <div className="space-y-4">
-              {category.skills.map(skill => (
-                <SkillItem
-                  key={skill.name}
-                  name={skill.name}
-                  level={skill.level}
-                  years={skill.years}
-                />
-              ))}
+      {loading && !categories.length ? (
+        <div className="py-8 text-center text-sm text-muted-foreground">
+          Loading skills…
+        </div>
+      ) : error && !categories.length ? (
+        <div className="py-8 text-center text-sm text-destructive">
+          Failed to load skills: {error}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {categories.map(category => (
+            <div
+              key={category.name}
+              className="space-y-4 p-6 rounded-lg border bg-card"
+            >
+              <h3 className="text-lg font-semibold text-primary">
+                {category.name}
+              </h3>
+              <div className="space-y-4">
+                {category.skills.map(skill => (
+                  <SkillItem
+                    key={skill.name}
+                    name={skill.name}
+                    level={skill.level}
+                    years={skill.years}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       <div className="text-center text-sm text-muted-foreground">
         <p>

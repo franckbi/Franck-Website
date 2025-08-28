@@ -1,72 +1,132 @@
 [
   {
-    "date": "2024-01-01",
-    "title": "Senior Frontend Developer",
-    "company": "TechCorp Inc.",
-    "description": "Leading frontend development for enterprise applications, focusing on performance optimization and user experience. Mentoring junior developers and establishing best practices for React and TypeScript development.",
-    "technologies": ["React", "TypeScript", "Next.js", "GraphQL", "AWS"],
-    "type": "work"
+    "date": "2017-08-01",
+    "title": "Student \u2014 Ames High School",
+    "company": "Ames High School",
+    "description": "Completed high school education in Ames, IA.",
+    "technologies": [],
+    "type": "education"
   },
   {
-    "date": "2023-06-01",
-    "title": "3D Portfolio Website Launch",
-    "company": "Personal Project",
-    "description": "Launched an innovative 3D portfolio website using Three.js and react-three-fiber, featuring interactive project showcases and comprehensive accessibility features.",
+    "date": "2021-08-01",
+    "title": "B.S. Software Engineering (Start)",
+    "company": "Iowa State University",
+    "description": "Began Bachelor of Science in Software Engineering at ISU.",
+    "technologies": ["Java", "C", "Python", "HTML", "CSS", "JavaScript"],
+    "type": "education"
+  },
+  {
+    "date": "2021-08-01",
+    "title": "Developer \u2014 Memory Game (C)",
+    "company": "Iowa State University",
+    "description": "Built a terminal-based single-player memory game with score tracking and validation.",
+    "technologies": ["C", "Cygwin"],
+    "type": "project"
+  },
+  {
+    "date": "2022-01-01",
+    "title": "Web Developer \u2014 Optify (Spotify Integrations)",
+    "company": "Iowa State University",
+    "description": "Designed and implemented a music discovery site with Spotify API, user flows, and responsive UI.",
     "technologies": [
-      "Three.js",
-      "React Three Fiber",
-      "Next.js",
-      "TypeScript",
-      "WebGL"
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Spotify API",
+      "Python",
+      "Java"
     ],
     "type": "project"
   },
   {
-    "date": "2022-03-01",
-    "title": "Frontend Developer",
-    "company": "StartupXYZ",
-    "description": "Developed and maintained multiple React applications for a fast-growing startup. Implemented responsive designs, optimized performance, and integrated with various APIs and third-party services.",
-    "technologies": ["React", "JavaScript", "Node.js", "PostgreSQL", "Docker"],
+    "date": "2023-05-01",
+    "title": "Software Engineer",
+    "company": "John Deere Financial",
+    "description": "Built and operated AWS serverless APIs and Next.js portals for Credit Underwriting & SAC. Infra with Terraform, SSO with Okta, CI/CD via Jenkins; improved reliability and added audit logging.",
+    "technologies": [
+      "TypeScript",
+      "Node.js",
+      "Next.js",
+      "MUI",
+      "Prisma",
+      "PostgreSQL",
+      "AWS Lambda",
+      "API Gateway",
+      "S3",
+      "RDS",
+      "CloudWatch",
+      "Terraform",
+      "Jenkins",
+      "Okta OIDC",
+      "SSM Parameter Store"
+    ],
     "type": "work"
   },
   {
-    "date": "2021-09-01",
-    "title": "Full-Stack Bootcamp Graduate",
-    "company": "Code Academy",
-    "description": "Completed intensive 6-month full-stack web development bootcamp, covering modern JavaScript frameworks, backend development, databases, and deployment strategies.",
-    "technologies": ["JavaScript", "React", "Node.js", "Express", "MongoDB"],
-    "type": "education"
-  },
-  {
-    "date": "2021-06-01",
-    "title": "Task Management App",
-    "company": "Personal Project",
-    "description": "Built a collaborative task management application with real-time updates, drag-and-drop functionality, and comprehensive project tracking features.",
-    "technologies": ["React", "Node.js", "Socket.io", "PostgreSQL", "Express"],
+    "date": "2023-08-01",
+    "title": "Android Developer \u2014 GymBros",
+    "company": "Iowa State University",
+    "description": "Android app with MVVM, Retrofit APIs, Room offline caching, auth, tests, and CI/CD.",
+    "technologies": [
+      "Java",
+      "Kotlin",
+      "Android",
+      "Retrofit",
+      "Room",
+      "JWT/OAuth",
+      "GitHub Actions",
+      "Gradle"
+    ],
     "type": "project"
   },
   {
-    "date": "2021-01-01",
-    "title": "Junior Web Developer",
-    "company": "Digital Agency Co.",
-    "description": "Started career in web development, working on client websites and learning modern development practices. Gained experience with responsive design and content management systems.",
-    "technologies": ["HTML", "CSS", "JavaScript", "WordPress", "PHP"],
-    "type": "work"
+    "date": "2024-08-01",
+    "title": "Software Engineer \u2014 GridAI ML Interface",
+    "company": "Iowa State University",
+    "description": "Next.js interface for real-time grid telemetry and ML outputs; reusable components and charts; WebSocket streaming.",
+    "technologies": [
+      "Next.js",
+      "TypeScript",
+      "React",
+      "MUI",
+      "Recharts",
+      "WebSockets"
+    ],
+    "type": "project"
   },
   {
-    "date": "2020-12-01",
-    "title": "First Open Source Contribution",
-    "company": "Open Source Community",
-    "description": "Made first significant contribution to an open source React component library, adding accessibility improvements and documentation updates.",
-    "technologies": ["React", "JavaScript", "Git", "Documentation"],
-    "type": "achievement"
+    "date": "2025-01-01",
+    "title": "Full\u2011Stack Engineer \u2014 Day Trading Scorer (MVP)",
+    "company": "Personal Project",
+    "description": "Real-time stock scoring (0\u2013100), hard gates, and GO/NO-GO verdict with trade plans; FastAPI backend + Next.js frontend; Dockerized with tests and WebSockets.",
+    "technologies": [
+      "FastAPI",
+      "Python",
+      "PostgreSQL",
+      "SQLAlchemy",
+      "Next.js",
+      "TypeScript",
+      "MUI",
+      "WebSockets",
+      "Docker",
+      "Playwright",
+      "pytest"
+    ],
+    "type": "project"
   },
   {
-    "date": "2020-05-01",
-    "title": "Bachelor of Computer Science",
-    "company": "University of Technology",
-    "description": "Graduated with honors, focusing on software engineering principles, algorithms, and data structures. Completed capstone project on web application performance optimization.",
-    "technologies": ["Java", "Python", "C++", "Algorithms", "Data Structures"],
+    "date": "2025-05-01",
+    "title": "B.S. Software Engineering (Graduated)",
+    "company": "Iowa State University",
+    "description": "Graduated with a B.S. in Software Engineering (GPA 3.07).",
+    "technologies": [
+      "React",
+      "Next.js",
+      "AWS",
+      "Terraform",
+      "Jenkins",
+      "PostgreSQL"
+    ],
     "type": "education"
   }
 ]

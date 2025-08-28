@@ -42,10 +42,40 @@ async function AboutContent() {
     );
   }
 
+  // Derive summary stats from content
+  const skills = skillsResult.data;
+  const timeline = timelineResult.data;
+
+  const techSet = new Set<string>();
+  skills.forEach(category =>
+    category.skills.forEach(skill => techSet.add(skill.name))
+  );
+
+  const technologiesCount = techSet.size;
+  const projectsCount = timeline.filter(item => item.type === 'project').length;
+
+  // Determine years of experience from earliest "work" timeline item (fallback to earliest item)
+  const workItems = timeline.filter(item => item.type === 'work');
+  const referenceItem = (workItems.length ? workItems : timeline)[0];
+  const earliestDate = referenceItem
+    ? new Date(referenceItem.date)
+    : new Date();
+  const yearsExperience = Math.max(
+    0,
+    Math.floor(
+      (Date.now() - earliestDate.getTime()) / (1000 * 60 * 60 * 24 * 365)
+    )
+  );
+
   return (
     <div className="space-y-16">
-      <BioSection />
-      <SkillsMatrix skillCategories={skillsResult.data} />
+      <BioSection
+        yearsExperience={yearsExperience}
+        projectsCompleted={projectsCount}
+        technologiesCount={technologiesCount}
+      />
+      {/* Let SkillsMatrix fetch the live JSON on the client to avoid stale server-side cache */}
+      <SkillsMatrix />
       <Timeline items={timelineResult.data} />
       <ContactLinks />
     </div>

@@ -5,9 +5,17 @@
 
 interface BioSectionProps {
   className?: string;
+  yearsExperience?: number;
+  projectsCompleted?: number;
+  technologiesCount?: number;
 }
 
-export function BioSection({ className = '' }: BioSectionProps) {
+export function BioSection({
+  className = '',
+  yearsExperience = 0,
+  projectsCompleted = 0,
+  technologiesCount = 0,
+}: BioSectionProps) {
   return (
     <section className={`space-y-6 ${className}`}>
       <div className="space-y-4">
@@ -37,20 +45,24 @@ export function BioSection({ className = '' }: BioSectionProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-border">
         <div className="text-center space-y-2">
-          <div className="text-2xl font-bold text-primary">2</div>
+          <div className="text-2xl font-bold text-primary">
+            {yearsExperience}
+          </div>
           <div className="text-sm text-muted-foreground">Years Experience</div>
         </div>
         <div className="text-center space-y-2">
-          <div className="text-2xl font-bold text-primary">6</div>
+          <div className="text-2xl font-bold text-primary">
+            {projectsCompleted}
+          </div>
           <div className="text-sm text-muted-foreground">
             Projects Completed
           </div>
         </div>
         <div className="text-center space-y-2">
-          <div className="text-2xl font-bold text-primary">10</div>
-          <div className="text-sm text-muted-foreground">
-            Technologies Mastered
+          <div className="text-2xl font-bold text-primary">
+            {technologiesCount}
           </div>
+          <div className="text-sm text-muted-foreground">Technologies Used</div>
         </div>
       </div>
     </section>

@@ -4,38 +4,38 @@
     "skills": [
       {
         "name": "React",
-        "level": "expert",
-        "years": 5
-      },
-      {
-        "name": "TypeScript",
-        "level": "expert",
+        "level": "Advanced",
         "years": 4
       },
       {
+        "name": "TypeScript",
+        "level": "intermediate",
+        "years": 3
+      },
+      {
         "name": "Next.js",
-        "level": "advanced",
+        "level": "intermediate",
         "years": 3
       },
       {
         "name": "Three.js",
-        "level": "advanced",
+        "level": "intermediate",
         "years": 2
       },
       {
         "name": "Tailwind CSS",
-        "level": "expert",
+        "level": "intermediate",
         "years": 3
       },
       {
         "name": "HTML/CSS",
-        "level": "expert",
-        "years": 6
+        "level": "Advanced",
+        "years": 4
       },
       {
         "name": "JavaScript",
-        "level": "expert",
-        "years": 6
+        "level": "Advanced",
+        "years": 4
       }
     ]
   },
@@ -44,18 +44,18 @@
     "skills": [
       {
         "name": "Node.js",
-        "level": "advanced",
-        "years": 4
+        "level": "intermediate",
+        "years": 3
       },
       {
         "name": "Express.js",
-        "level": "advanced",
-        "years": 4
+        "level": "intermediate",
+        "years": 3
       },
       {
         "name": "PostgreSQL",
         "level": "intermediate",
-        "years": 3
+        "years": 2
       },
       {
         "name": "MongoDB",
@@ -64,13 +64,13 @@
       },
       {
         "name": "GraphQL",
-        "level": "intermediate",
-        "years": 2
+        "level": "beginner",
+        "years": 1
       },
       {
         "name": "REST APIs",
         "level": "advanced",
-        "years": 4
+        "years": 3
       }
     ]
   },
@@ -79,18 +79,18 @@
     "skills": [
       {
         "name": "Three.js",
-        "level": "advanced",
-        "years": 2
+        "level": "beginner",
+        "years": 1
       },
       {
         "name": "React Three Fiber",
-        "level": "advanced",
-        "years": 2
+        "level": "beginner",
+        "years": 1
       },
       {
         "name": "Blender",
-        "level": "intermediate",
-        "years": 3
+        "level": "beginner",
+        "years": 1
       },
       {
         "name": "WebGL",
@@ -99,7 +99,7 @@
       },
       {
         "name": "GLSL",
-        "level": "beginner",
+        "level": "intermediate",
         "years": 1
       }
     ]
@@ -109,8 +109,8 @@
     "skills": [
       {
         "name": "Git",
-        "level": "expert",
-        "years": 6
+        "level": "Advanced",
+        "years": 4
       },
       {
         "name": "Docker",
@@ -124,7 +124,7 @@
       },
       {
         "name": "Vercel",
-        "level": "advanced",
+        "level": "intermediate",
         "years": 3
       },
       {
@@ -135,7 +135,7 @@
       {
         "name": "Webpack",
         "level": "intermediate",
-        "years": 3
+        "years": 2
       }
     ]
   },
@@ -149,28 +149,28 @@
       },
       {
         "name": "React Testing Library",
-        "level": "advanced",
-        "years": 3
+        "level": "intermediate",
+        "years": 2
       },
       {
         "name": "Playwright",
-        "level": "intermediate",
+        "level": "beginner",
         "years": 1
       },
       {
         "name": "Vitest",
         "level": "intermediate",
-        "years": 1
+        "years": 2
       },
       {
         "name": "ESLint",
-        "level": "advanced",
-        "years": 4
+        "level": "intermediate",
+        "years": 3
       },
       {
         "name": "Prettier",
-        "level": "expert",
-        "years": 4
+        "level": "intermediate",
+        "years": 2
       }
     ]
   }

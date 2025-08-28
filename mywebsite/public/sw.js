@@ -21,6 +21,8 @@ const STATIC_ASSETS = [
   '/_next/static/chunks/framework',
   '/_next/static/chunks/main',
   '/_next/static/chunks/pages',
+  '/offline.js',
+  '/sw-offline.js',
 ];
 
 // Critical assets for offline functionality
@@ -559,13 +561,16 @@ async function getOfflineResponse(request) {
           <style>
             body { font-family: system-ui, sans-serif; text-align: center; padding: 2rem; }
             .offline { max-width: 400px; margin: 0 auto; }
+            .retry-btn { padding: 8px 12px; border-radius: 6px; }
           </style>
         </head>
         <body>
           <div class="offline">
             <h1>You're Offline</h1>
             <p>Please check your internet connection and try again.</p>
-            <button onclick="window.location.reload()">Retry</button>
+            <button id="sw-retry-btn" class="retry-btn">Retry</button>
+            <!-- Load external fallback script that was cached at install time -->
+            <script src="/sw-offline.js"></script>
           </div>
         </body>
       </html>

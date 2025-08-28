@@ -28,34 +28,11 @@ const nextConfig = {
   async headers() {
     const isDev = process.env.NODE_ENV === 'development';
 
-    // Content Security Policy
-    const cspHeader = `
-      default-src 'self';
-      script-src 'self' ${isDev ? "'unsafe-eval' 'unsafe-inline'" : "'unsafe-eval'"} https://plausible.io;
-      style-src 'self' 'unsafe-inline';
-      img-src 'self' blob: data: https:;
-      font-src 'self' data:;
-      object-src 'none';
-      base-uri 'self';
-      form-action 'self';
-      frame-ancestors 'none';
-      connect-src 'self' https: https://plausible.io https://api.resend.com https://raw.githack.com;
-      worker-src 'self' blob:;
-      child-src 'self' blob:;
-      media-src 'self' blob: data:;
-      ${isDev ? '' : 'upgrade-insecure-requests;'}
-    `
-      .replace(/\s{2,}/g, ' ')
-      .trim();
-
     return [
       {
         source: '/(.*)',
         headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: cspHeader,
-          },
+          // Content-Security-Policy is now provided dynamically by middleware to include a per-request nonce.
           {
             key: 'X-Content-Type-Options',
             value: 'nosniff',

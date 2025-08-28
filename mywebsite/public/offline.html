@@ -137,9 +137,7 @@
         content has been cached and will be available when you're back online.
       </p>
 
-      <button class="retry-btn" onclick="window.location.reload()">
-        Try Again
-      </button>
+      <button class="retry-btn">Try Again</button>
 
       <div class="features">
         <h3>What's Available Offline:</h3>
@@ -152,26 +150,7 @@
       </div>
     </div>
 
-    <script>
-      // Auto-retry when connection is restored
-      window.addEventListener('online', function () {
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      });
-
-      // Show connection status
-      function updateConnectionStatus() {
-        if (navigator.onLine) {
-          document.querySelector('.retry-btn').textContent =
-            'Connection Restored - Reload';
-          document.querySelector('.retry-btn').style.background =
-            'rgba(74, 222, 128, 0.3)';
-        }
-      }
-
-      window.addEventListener('online', updateConnectionStatus);
-      window.addEventListener('offline', updateConnectionStatus);
-    </script>
+    <!-- Moved inline JS into /public/offline.js to comply with nonce-based CSP -->
+    <script src="/offline.js"></script>
   </body>
 </html>

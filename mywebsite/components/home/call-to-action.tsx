@@ -12,9 +12,9 @@ export function CallToAction() {
           </h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             I&apos;m always interested in new opportunities and exciting
-            projects. Whether you&apos;re looking for a developer, consultant,
-            or collaborator, let&apos;s discuss how we can bring your ideas to
-            life.
+            projects. Whether you&apos;re looking for a software developer,
+            consultant, or collaborator, let&apos;s discuss how we can bring
+            your ideas to life.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
@@ -35,7 +35,7 @@ export function CallToAction() {
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span>Available for new projects</span>
+              <span>Available for new opportunities</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-blue-500 rounded-full"></div>

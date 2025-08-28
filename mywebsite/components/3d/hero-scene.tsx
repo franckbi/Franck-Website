@@ -64,14 +64,30 @@ function ProjectCard({
     if (meshRef.current && project.sceneRef && !reducedMotion) {
       const time = state.clock.getElapsedTime();
       const baseY = project.sceneRef.position.y;
+      const baseX = project.sceneRef.position.x;
+      const baseZ = project.sceneRef.position.z;
 
-      // Floating animation with slight offset per card
+      // Enhanced floating animation with different frequencies per card
+      const floatSpeed = 0.4 + index * 0.1;
+      const floatAmplitude = 0.15;
+
       meshRef.current.position.y =
-        baseY + Math.sin(time * 0.5 + index * 0.8) * 0.1;
+        baseY + Math.sin(time * floatSpeed + index * 1.2) * floatAmplitude;
 
-      // Gentle rotation
+      // Subtle horizontal drift
+      meshRef.current.position.x =
+        baseX + Math.cos(time * floatSpeed * 0.7 + index * 0.8) * 0.05;
+
+      meshRef.current.position.z =
+        baseZ + Math.sin(time * floatSpeed * 0.5 + index * 1.5) * 0.03;
+
+      // Gentle rotation with different axes
       meshRef.current.rotation.y =
-        project.sceneRef.rotation.y + Math.sin(time * 0.3 + index * 0.5) * 0.05;
+        project.sceneRef.rotation.y + Math.sin(time * 0.2 + index * 0.7) * 0.08;
+
+      meshRef.current.rotation.x =
+        project.sceneRef.rotation.x +
+        Math.cos(time * 0.15 + index * 0.9) * 0.03;
     }
   });
 
@@ -222,18 +238,18 @@ export function HeroScene({
     (project: Project | null | undefined) => {
       if (!project?.sceneRef) {
         return {
-          position: [0, 0, 5] as [number, number, number],
+          position: [0, 2, 6] as [number, number, number],
           target: [0, 0, 0] as [number, number, number],
         };
       }
 
       const { position } = project.sceneRef;
       // Position camera to focus on the project card
-      const cameraOffset = 2.5;
+      const cameraOffset = 3;
       return {
         position: [
-          position.x + cameraOffset * 0.7,
-          position.y + cameraOffset * 0.3,
+          position.x + cameraOffset * 0.8,
+          position.y + cameraOffset * 0.4,
           position.z + cameraOffset,
         ] as [number, number, number],
         target: [position.x, position.y, position.z] as [
@@ -404,12 +420,16 @@ export function HeroScene({
   useFrame((state, delta) => {
     if (!reducedMotion && !focusedProject && controlsRef.current) {
       const time = state.clock.getElapsedTime();
-      const radius = 0.2;
-      const speed = 0.1;
 
-      // Subtle camera drift
-      camera.position.x += Math.sin(time * speed) * radius * 0.01;
-      camera.position.y += Math.cos(time * speed * 0.7) * radius * 0.01;
+      // Very subtle camera breathing effect
+      const breathingIntensity = 0.008;
+      const breathingSpeed = 0.08;
+
+      const originalPosition = controlsRef.current.object.position;
+      originalPosition.y +=
+        Math.sin(time * breathingSpeed) * breathingIntensity;
+      originalPosition.x +=
+        Math.cos(time * breathingSpeed * 0.7) * breathingIntensity * 0.5;
 
       controlsRef.current.update();
     }
@@ -431,24 +451,36 @@ export function HeroScene({
       {/* Fog for depth */}
       <fog attach="fog" color={fogColor} near={5} far={15} />
 
-      {/* Lighting system */}
-      <ambientLight intensity={resolvedTheme === 'dark' ? 0.3 : 0.4} />
+      {/* Enhanced lighting system */}
+      <ambientLight intensity={resolvedTheme === 'dark' ? 0.4 : 0.5} />
+
+      {/* Main directional light */}
       <directionalLight
-        position={[5, 5, 5]}
-        intensity={resolvedTheme === 'dark' ? 0.8 : 1.0}
+        position={[8, 8, 5]}
+        intensity={resolvedTheme === 'dark' ? 1.0 : 1.2}
         castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
         shadow-camera-far={50}
-        shadow-camera-left={-10}
-        shadow-camera-right={10}
-        shadow-camera-top={10}
-        shadow-camera-bottom={-10}
+        shadow-camera-left={-15}
+        shadow-camera-right={15}
+        shadow-camera-top={15}
+        shadow-camera-bottom={-15}
+        shadow-bias={-0.0001}
       />
+
+      {/* Fill light */}
       <directionalLight
-        position={[-3, 2, -5]}
-        intensity={resolvedTheme === 'dark' ? 0.4 : 0.3}
+        position={[-5, 3, -8]}
+        intensity={resolvedTheme === 'dark' ? 0.5 : 0.4}
         color={resolvedTheme === 'dark' ? '#3b82f6' : '#6366f1'}
+      />
+
+      {/* Rim light for depth */}
+      <directionalLight
+        position={[0, -2, -10]}
+        intensity={resolvedTheme === 'dark' ? 0.3 : 0.2}
+        color={resolvedTheme === 'dark' ? '#8b5cf6' : '#a855f7'}
       />
 
       {/* Orbit controls with constraints */}
@@ -457,16 +489,17 @@ export function HeroScene({
         enablePan={false}
         enableZoom={true}
         enableRotate={true}
-        minDistance={3}
-        maxDistance={8}
-        minPolarAngle={Math.PI / 6}
-        maxPolarAngle={Math.PI - Math.PI / 6}
-        minAzimuthAngle={-Math.PI / 3}
-        maxAzimuthAngle={Math.PI / 3}
-        autoRotate={!reducedMotion}
-        autoRotateSpeed={0.5}
-        dampingFactor={0.05}
+        minDistance={4}
+        maxDistance={10}
+        minPolarAngle={Math.PI / 8}
+        maxPolarAngle={Math.PI - Math.PI / 8}
+        minAzimuthAngle={-Math.PI / 2}
+        maxAzimuthAngle={Math.PI / 2}
+        autoRotate={!reducedMotion && !focusedProject}
+        autoRotateSpeed={0.3}
+        dampingFactor={0.08}
         enableDamping={true}
+        target={[0, 0.5, 0]}
       />
 
       {/* Project cards */}
@@ -484,14 +517,29 @@ export function HeroScene({
       ))}
 
       {/* Ground plane for reference */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>
-        <planeGeometry args={[20, 20]} />
+      <mesh
+        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, -2.5, 0]}
+        receiveShadow
+      >
+        <planeGeometry args={[30, 30]} />
         <meshStandardMaterial
-          color={resolvedTheme === 'dark' ? '#1e293b' : '#f1f5f9'}
-          roughness={0.8}
-          metalness={0.1}
+          color={resolvedTheme === 'dark' ? '#0f172a' : '#f8fafc'}
+          roughness={0.9}
+          metalness={0.05}
           transparent
-          opacity={0.3}
+          opacity={0.4}
+        />
+      </mesh>
+
+      {/* Subtle grid pattern on ground */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2.49, 0]}>
+        <planeGeometry args={[30, 30]} />
+        <meshBasicMaterial
+          color={resolvedTheme === 'dark' ? '#1e293b' : '#e2e8f0'}
+          transparent
+          opacity={0.1}
+          wireframe
         />
       </mesh>
     </>

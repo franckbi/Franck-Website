@@ -44,8 +44,8 @@
     "priority": 1,
     "featured": true,
     "sceneRef": {
-      "position": { "x": 0, "y": 0, "z": 0 },
-      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "position": { "x": -3, "y": 0.5, "z": 0 },
+      "rotation": { "x": 0, "y": 0.2, "z": 0 },
       "scale": 1
     },
     "metadata": {
@@ -112,7 +112,7 @@
     "priority": 2,
     "featured": true,
     "sceneRef": {
-      "position": { "x": 0, "y": 0, "z": 0 },
+      "position": { "x": 0, "y": 1, "z": -1 },
       "rotation": { "x": 0, "y": 0, "z": 0 },
       "scale": 1
     },
@@ -175,8 +175,8 @@
     "priority": 3,
     "featured": true,
     "sceneRef": {
-      "position": { "x": 0, "y": 0, "z": 0 },
-      "rotation": { "x": 0, "y": 0, "z": 0 },
+      "position": { "x": 3, "y": 0.5, "z": 0 },
+      "rotation": { "x": 0, "y": -0.2, "z": 0 },
       "scale": 1
     },
     "metadata": {

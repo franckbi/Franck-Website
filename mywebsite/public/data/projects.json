@@ -5,7 +5,7 @@
     "tagline": "Interactive Three.js portfolio with WebGL fallbacks",
     "description": "A modern portfolio website built with Next.js 14 and react-three-fiber, featuring interactive 3D scenes that showcase projects in an immersive studio environment. The site implements comprehensive accessibility features and performance optimizations.",
     "thumbnail": {
-      "src": "/images/projects/3d-portfolio/thumbnail.jpg",
+      "src": "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&fit=crop&crop=center",
       "alt": "3D Portfolio Website thumbnail showing floating project cards",
       "width": 800,
       "height": 600,
@@ -13,13 +13,13 @@
     },
     "gallery": [
       {
-        "src": "/images/projects/3d-portfolio/hero.jpg",
+        "src": "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1920&h=1080&fit=crop&crop=center",
         "alt": "3D studio scene with floating project cards",
         "width": 1920,
         "height": 1080
       },
       {
-        "src": "/images/projects/3d-portfolio/projects-grid.jpg",
+        "src": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&h=1080&fit=crop&crop=center",
         "alt": "3D projects grid layout with orbital arrangement",
         "width": 1920,
         "height": 1080
@@ -70,14 +70,14 @@
     "tagline": "Collaborative project management with real-time updates",
     "description": "A full-stack task management application built with React and Node.js, featuring real-time collaboration, drag-and-drop interfaces, and comprehensive project tracking capabilities.",
     "thumbnail": {
-      "src": "/images/projects/task-app/thumbnail.jpg",
+      "src": "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=600&fit=crop&crop=center",
       "alt": "Task management app dashboard",
       "width": 800,
       "height": 600
     },
     "gallery": [
       {
-        "src": "/images/projects/task-app/dashboard.jpg",
+        "src": "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=1920&h=1080&fit=crop&crop=center",
         "alt": "Main dashboard with project overview",
         "width": 1920,
         "height": 1080
@@ -126,14 +126,14 @@
     "tagline": "Modern shopping experience with headless architecture",
     "description": "A scalable e-commerce platform built with modern JAMstack architecture, featuring headless CMS integration, advanced search capabilities, and optimized checkout flows.",
     "thumbnail": {
-      "src": "/images/projects/ecommerce/thumbnail.jpg",
+      "src": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop&crop=center",
       "alt": "E-commerce platform product page",
       "width": 800,
       "height": 600
     },
     "gallery": [
       {
-        "src": "/images/projects/ecommerce/homepage.jpg",
+        "src": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&h=1080&fit=crop&crop=center",
         "alt": "Homepage with featured products",
         "width": 1920,
         "height": 1080

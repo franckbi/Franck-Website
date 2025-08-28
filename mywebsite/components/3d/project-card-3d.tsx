@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Text, RoundedBox, Html } from '@react-three/drei';
+import { RoundedBox, Html } from '@react-three/drei';
 import { useSpring, animated } from '@react-spring/three';
 import { Project } from '@/lib/types/content';
 import * as THREE from 'three';
@@ -17,7 +17,6 @@ interface ProjectCard3DProps {
 }
 
 const AnimatedRoundedBox = animated(RoundedBox);
-const AnimatedText = animated(Text);
 
 export function ProjectCard3D({
   project,
@@ -111,96 +110,44 @@ export function ProjectCard3D({
         />
       </AnimatedRoundedBox>
 
-      {/* Project title */}
-      <AnimatedText
-        position={[0, 0.8, 0.06]}
-        fontSize={0.15}
-        maxWidth={1.8}
-        lineHeight={1}
-        letterSpacing={0.02}
-        textAlign="center"
-        font="/fonts/inter-bold.woff"
-        anchorX="center"
-        anchorY="middle"
-        scale={scale}
+      {/* Card content as HTML overlay */}
+      <Html
+        position={[0, 0, 0.06]}
+        center
+        distanceFactor={8}
+        transform
+        sprite
+        occlude={false}
       >
-        {project.title}
-        <meshStandardMaterial color="#ffffff" />
-      </AnimatedText>
-
-      {/* Project tagline */}
-      <AnimatedText
-        position={[0, 0.4, 0.06]}
-        fontSize={0.08}
-        maxWidth={1.6}
-        lineHeight={1.2}
-        letterSpacing={0.01}
-        textAlign="center"
-        font="/fonts/inter-regular.woff"
-        anchorX="center"
-        anchorY="middle"
-        scale={scale}
-      >
-        {project.tagline}
-        <meshStandardMaterial color="#e5e5e5" />
-      </AnimatedText>
-
-      {/* Tech stack chips */}
-      <group position={[0, -0.2, 0.06]}>
-        {project.stack.slice(0, 3).map((tech, index) => (
-          <group key={tech} position={[(index - 1) * 0.5, 0, 0]}>
-            <RoundedBox args={[0.4, 0.15, 0.02]} radius={0.02}>
-              <meshStandardMaterial color="#374151" />
-            </RoundedBox>
-            <Text
-              position={[0, 0, 0.02]}
-              fontSize={0.05}
-              color="#ffffff"
-              anchorX="center"
-              anchorY="middle"
-              font="/fonts/inter-medium.woff"
-            >
-              {tech}
-            </Text>
-          </group>
-        ))}
-      </group>
-
-      {/* Year badge */}
-      <group position={[0.8, 0.9, 0.06]}>
-        <RoundedBox args={[0.3, 0.15, 0.02]} radius={0.02}>
-          <meshStandardMaterial color="#059669" />
-        </RoundedBox>
-        <Text
-          position={[0, 0, 0.02]}
-          fontSize={0.06}
-          color="#ffffff"
-          anchorX="center"
-          anchorY="middle"
-          font="/fonts/inter-bold.woff"
-        >
-          {project.year}
-        </Text>
-      </group>
-
-      {/* Featured badge */}
-      {project.featured && (
-        <group position={[-0.8, 0.9, 0.06]}>
-          <RoundedBox args={[0.4, 0.15, 0.02]} radius={0.02}>
-            <meshStandardMaterial color="#DC2626" />
-          </RoundedBox>
-          <Text
-            position={[0, 0, 0.02]}
-            fontSize={0.05}
-            color="#ffffff"
-            anchorX="center"
-            anchorY="middle"
-            font="/fonts/inter-bold.woff"
-          >
-            Featured
-          </Text>
-        </group>
-      )}
+        <div className="pointer-events-none select-none w-48 h-60 flex flex-col items-center justify-center text-center p-4">
+          <h3 className="text-white font-bold text-sm mb-2 line-clamp-2">
+            {project.title}
+          </h3>
+          <p className="text-gray-200 text-xs mb-3 line-clamp-2">
+            {project.tagline}
+          </p>
+          <div className="flex flex-wrap gap-1 justify-center mb-2">
+            {project.stack.slice(0, 3).map(tech => (
+              <span
+                key={tech}
+                className="text-xs bg-gray-700 text-white px-2 py-1 rounded"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+          <div className="flex gap-2 items-center">
+            <span className="text-xs bg-green-600 text-white px-2 py-1 rounded">
+              {project.year}
+            </span>
+            {project.featured && (
+              <span className="text-xs bg-red-600 text-white px-2 py-1 rounded">
+                Featured
+              </span>
+            )}
+          </div>
+        </div>
+      </Html>
 
       {/* Hover tooltip */}
       {hovered && (

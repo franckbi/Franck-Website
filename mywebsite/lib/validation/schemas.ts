@@ -13,7 +13,13 @@ const Vector3Schema = z.object({
 });
 
 const ImageAssetSchema = z.object({
-  src: z.string().url('Invalid image URL'),
+  src: z
+    .string()
+    .min(1, 'Image source is required')
+    .refine(val => {
+      // Allow relative paths (starting with /) or valid URLs
+      return val.startsWith('/') || z.string().url().safeParse(val).success;
+    }, 'Invalid image URL or path'),
   alt: z.string().min(1, 'Alt text is required'),
   width: z.number().positive('Width must be positive'),
   height: z.number().positive('Height must be positive'),
@@ -21,8 +27,22 @@ const ImageAssetSchema = z.object({
 });
 
 const VideoAssetSchema = z.object({
-  src: z.string().url('Invalid video URL'),
-  poster: z.string().url('Invalid poster URL').optional(),
+  src: z
+    .string()
+    .min(1, 'Video source is required')
+    .refine(val => {
+      // Allow relative paths (starting with /) or valid URLs
+      return val.startsWith('/') || z.string().url().safeParse(val).success;
+    }, 'Invalid video URL or path'),
+  poster: z
+    .string()
+    .optional()
+    .refine(val => {
+      // Allow empty, relative paths, or valid URLs
+      return (
+        !val || val.startsWith('/') || z.string().url().safeParse(val).success
+      );
+    }, 'Invalid poster URL or path'),
   duration: z.number().positive().optional(),
   width: z.number().positive('Width must be positive'),
   height: z.number().positive('Height must be positive'),
@@ -67,7 +87,15 @@ export const ProjectSchema = z.object({
   links: z.object({
     demo: z.string().url('Invalid demo URL').optional(),
     github: z.string().url('Invalid GitHub URL').optional(),
-    case_study: z.string().optional(),
+    case_study: z
+      .string()
+      .optional()
+      .refine(val => {
+        // Allow empty, relative paths, or valid URLs
+        return (
+          !val || val.startsWith('/') || z.string().url().safeParse(val).success
+        );
+      }, 'Invalid case study URL or path'),
   }),
   badges: z.array(z.string()),
   priority: z.number().int().min(1, 'Priority must be at least 1'),

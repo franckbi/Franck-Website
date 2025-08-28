@@ -6,7 +6,7 @@ import {
   PerspectiveCamera,
   Environment,
 } from '@react-three/drei';
-import { Suspense, useMemo } from 'react';
+import { Suspense, useMemo, useEffect, useState } from 'react';
 import { Project } from '@/lib/types/content';
 import { ProjectCard3D } from './project-card-3d';
 import { LoadingSpinner } from '@/components/ui';
@@ -98,6 +98,26 @@ export function ProjectsScene({
   onProjectHover,
   className = '',
 }: ProjectsSceneProps) {
+  // Check for a locally hosted HDR as a robust fallback to avoid CSP/CORS issues
+  const [localHDRAvailable, setLocalHDRAvailable] = useState(false);
+
+  useEffect(() => {
+    let canceled = false;
+    // HEAD request is same-origin so it should succeed if the file exists under public/hdri
+    fetch('/hdri/venice_sunset_1k.hdr', { method: 'HEAD' })
+      .then(res => {
+        if (canceled) return;
+        setLocalHDRAvailable(res.ok);
+      })
+      .catch(() => {
+        if (canceled) return;
+        setLocalHDRAvailable(false);
+      });
+    return () => {
+      canceled = true;
+    };
+  }, []);
+
   return (
     <div className={`w-full h-[600px] ${className}`}>
       <Canvas
@@ -115,7 +135,13 @@ export function ProjectsScene({
 
           <SceneLighting />
 
-          <Environment preset="studio" />
+          {localHDRAvailable ? (
+            // Prefer local HDR if present in public/hdri/ to avoid remote fetch issues
+            <Environment files="/hdri/venice_sunset_1k.hdr" />
+          ) : (
+            // Fallback to the preset which loads from the drei hosted assets
+            <Environment preset="sunset" />
+          )}
 
           <ProjectsGrid
             projects={projects}

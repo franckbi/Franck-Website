@@ -8,13 +8,12 @@ const nextConfig = {
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
-      // Add patterns for external image sources if needed
-      // {
-      //   protocol: 'https',
-      //   hostname: 'example.com',
-      //   port: '',
-      //   pathname: '/images/**',
-      // },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   webpack: config => {
@@ -40,7 +39,7 @@ const nextConfig = {
       base-uri 'self';
       form-action 'self';
       frame-ancestors 'none';
-      connect-src 'self' https://plausible.io https://api.resend.com;
+      connect-src 'self' https: https://plausible.io https://api.resend.com https://raw.githack.com;
       worker-src 'self' blob:;
       child-src 'self' blob:;
       media-src 'self' blob: data:;

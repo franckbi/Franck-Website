@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Text, Box } from '@react-three/drei';
+import { OrbitControls, Box, Html } from '@react-three/drei';
 import { Group, Vector3, Camera } from 'three';
 import { useSpring, animated } from '@react-spring/three';
 import { useSettingsStore } from '@/lib/stores/settings-store';
@@ -152,44 +152,34 @@ function ProjectCard({
         />
       </Box>
 
-      {/* Project title */}
-      <Text
-        position={[0, 0.3, 0.06]}
-        fontSize={0.15}
-        color={textColor}
-        anchorX="center"
-        anchorY="middle"
-        maxWidth={1.8}
+      {/* Project content as HTML overlay */}
+      <Html
+        position={[0, 0, 0.06]}
+        center
+        distanceFactor={6}
+        transform
+        sprite
+        occlude={false}
       >
-        {project.title}
-      </Text>
-
-      {/* Project tagline */}
-      <Text
-        position={[0, 0.1, 0.06]}
-        fontSize={0.08}
-        color={accentColor}
-        anchorX="center"
-        anchorY="middle"
-        maxWidth={1.8}
-      >
-        {project.tagline}
-      </Text>
-
-      {/* Tech stack indicators */}
-      {project.stack.slice(0, 3).map((tech, index) => (
-        <Text
-          key={tech}
-          position={[-0.7 + index * 0.7, -0.3, 0.06]}
-          fontSize={0.06}
-          color={accentColor}
-          anchorX="center"
-          anchorY="middle"
-          maxWidth={0.6}
-        >
-          {tech}
-        </Text>
-      ))}
+        <div className="pointer-events-none select-none w-48 h-32 flex flex-col items-center justify-center text-center">
+          <h3 className="text-white font-bold text-lg mb-2 line-clamp-2">
+            {project.title}
+          </h3>
+          <p className="text-blue-200 text-sm mb-3 line-clamp-2">
+            {project.tagline}
+          </p>
+          <div className="flex flex-wrap gap-1 justify-center">
+            {project.stack.slice(0, 3).map(tech => (
+              <span
+                key={tech}
+                className="text-xs bg-blue-600/80 text-white px-2 py-1 rounded"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </Html>
     </animated.group>
   );
 }

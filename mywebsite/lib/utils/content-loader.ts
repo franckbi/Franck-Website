@@ -22,9 +22,25 @@ async function loadContent<T>(
   schema: z.ZodSchema<T>
 ): Promise<ContentResult<T>> {
   try {
+    // If running on the server, fetch requires an absolute URL. Build one from NEXT_PUBLIC_SITE_URL or fallback to localhost.
+    const fetchPath = (() => {
+      if (typeof window === 'undefined') {
+        if (path.startsWith('/')) {
+          const base =
+            process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+          try {
+            return new URL(path, base).toString();
+          } catch {
+            return base + path;
+          }
+        }
+      }
+      return path;
+    })();
+
     // In a real application, this would fetch from an API or file system
     // For now, we'll simulate loading from the public directory
-    const response = await fetch(path);
+    const response = await fetch(fetchPath);
 
     if (!response.ok) {
       return {

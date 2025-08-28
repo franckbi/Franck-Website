@@ -95,6 +95,11 @@ class MemoryManager {
   }
 
   public cleanupScene(scene: THREE.Scene, options: CleanupOptions = {}): void {
+    // Defensive: scene may be undefined/null if called after references cleared
+    if (!scene) {
+      console.warn('cleanupScene called with no scene - skipping cleanup');
+      return;
+    }
     const {
       disposeGeometries = true,
       disposeMaterials = true,

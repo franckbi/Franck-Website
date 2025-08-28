@@ -37,10 +37,10 @@ export default function ContactPage() {
                   <p>
                     Prefer email? You can also reach me directly at{' '}
                     <a
-                      href="mailto:contact@example.com"
+                      href="mailto:franckbbiy@gmail.com"
                       className="text-blue-600 dark:text-blue-400 hover:underline"
                     >
-                      contact@example.com
+                      franckbbiy@gmail.com
                     </a>
                   </p>
                   <p>Response time is typically within 24-48 hours.</p>

@@ -124,6 +124,8 @@ const nextConfig = {
     // build environment.
     optimizeCss: false,
     optimizePackageImports: ['lucide-react', '@react-three/drei'],
+    // Ensure compatibility with Vercel
+    serverComponentsExternalPackages: ['three', 'three-stdlib'],
   },
 };
 

@@ -1,7 +1,4 @@
-import { Suspense } from 'react';
 import { Metadata } from 'next';
-import { ProjectsPageClient } from '@/components/projects/projects-page-client';
-import { ErrorBoundary } from '@/components/ui/error-boundary';
 import { loadProjects } from '@/lib/utils/content-loader';
 
 export async function generateStaticParams() {
@@ -30,19 +27,36 @@ export default async function ProjectsPage() {
   const projects = result.error ? [] : result.data;
 
   return (
-    <ErrorBoundary>
-      <Suspense
-        fallback={
-          <div className="container mx-auto px-4 py-8">
-            <div className="flex items-center justify-center min-h-[400px]">
-              Loading...
+    <div className="container mx-auto px-4 py-8">
+      <div className="space-y-8">
+        <div className="text-center space-y-2">
+          <h1 className="text-3xl font-bold">Projects</h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Explore my portfolio of projects and work.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map(project => (
+            <div key={project.slug} className="bg-card border rounded-lg p-6">
+              <h3 className="font-semibold mb-2">{project.title}</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                {project.tagline}
+              </p>
+              <div className="flex flex-wrap gap-1">
+                {project.stack.slice(0, 3).map(tech => (
+                  <span
+                    key={tech}
+                    className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-        }
-      >
-        {/* Pass server-loaded projects as initialProjects to client component */}
-        <ProjectsPageClient initialProjects={projects} />
-      </Suspense>
-    </ErrorBoundary>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

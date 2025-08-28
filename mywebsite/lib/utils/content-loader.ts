@@ -43,7 +43,10 @@ async function loadContent<T>(
         const filePath = pathMod.join(process.cwd(), 'public', relativePath);
         const fileContents = await readFile(filePath, 'utf-8');
         const rawData = JSON.parse(fileContents);
-        const validatedData = schema.parse(rawData);
+        const preNormalized = pathStr.endsWith('/data/skills.json')
+          ? normalizeSkillLevels(rawData)
+          : rawData;
+        const validatedData = schema.parse(preNormalized);
 
         // Store in cache
         contentCache.set(pathStr, validatedData as unknown);
@@ -53,8 +56,21 @@ async function loadContent<T>(
           error: null,
         };
       } catch (err) {
-        // If file read or parse fails, we'll fall back to trying a network fetch below.
-        // Keep going to the fetch logic so non-file-backed paths still work.
+        // If file read or parse fails, return a clear error instead of falling back to a network request.
+        // Failing to read a public file on the server typically indicates a deployment or packaging issue.
+        const pathMod = await import('path');
+        const relativePath = pathStr.startsWith('/')
+          ? pathStr.slice(1)
+          : pathStr;
+        const filePath = pathMod.join(process.cwd(), 'public', relativePath);
+
+        return {
+          data: null,
+          error: {
+            message: `Failed to read local content file at ${filePath}: ${err instanceof Error ? err.message : String(err)}`,
+            code: 'FILE_READ_ERROR',
+          },
+        };
       }
     }
 
@@ -85,7 +101,10 @@ async function loadContent<T>(
     const rawData = await response.json();
 
     // Validate the data against the schema
-    const validatedData = schema.parse(rawData);
+    const preNormalized = pathStr.endsWith('/data/skills.json')
+      ? normalizeSkillLevels(rawData)
+      : rawData;
+    const validatedData = schema.parse(preNormalized);
 
     // Store in cache
     contentCache.set(pathStr, validatedData as unknown);
@@ -124,6 +143,46 @@ async function loadContent<T>(
       },
     };
   }
+}
+
+/**
+ * Normalize skill level strings in content files to the expected lowercase values
+ * so Zod validation accepts common capitalizations (e.g. "Advanced" -> "advanced").
+ */
+function normalizeSkillLevels<T>(data: T): T {
+  try {
+    const allowed = new Set(['beginner', 'intermediate', 'advanced', 'expert']);
+
+    if (Array.isArray(data)) {
+      // Operate on a shallow clone to avoid surprising callers
+      return data.map((category: any) => {
+        if (category && Array.isArray(category.skills)) {
+          const skills = category.skills.map((skill: any) => {
+            if (skill && typeof skill.level === 'string') {
+              const normalized = skill.level.trim().toLowerCase();
+              if (allowed.has(normalized)) {
+                skill.level = normalized;
+              } else {
+                // Try to remove non-alpha characters and check again
+                const cleaned = normalized.replace(/[^a-z]/g, '');
+                if (allowed.has(cleaned)) skill.level = cleaned;
+                else skill.level = normalized; // keep lowercased fallback
+              }
+            }
+            return skill;
+          });
+
+          return { ...category, skills };
+        }
+        return category;
+      }) as unknown as T;
+    }
+  } catch (e) {
+    // If normalization fails, return original data and let validation handle errors
+    return data;
+  }
+
+  return data;
 }
 
 /**

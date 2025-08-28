@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       checkEnvironment(),
       checkDatabase(),
       checkExternalServices(),
-      checkAssets(),
+      checkAssets(request.url),
     ]);
 
     const results = checks.map((check, index) => ({
@@ -144,14 +144,14 @@ async function checkExternalServices(): Promise<string> {
 /**
  * Check critical assets
  */
-async function checkAssets(): Promise<string> {
+async function checkAssets(baseUrl: string): Promise<string> {
   const criticalAssets = ['/asset-manifest.json', '/sw-assets.json'];
 
-  const missing = [];
+  const missing: string[] = [];
 
   for (const asset of criticalAssets) {
     try {
-      const response = await fetch(new URL(asset, request.url), {
+      const response = await fetch(new URL(asset, baseUrl), {
         method: 'HEAD',
         signal: AbortSignal.timeout(3000),
       });

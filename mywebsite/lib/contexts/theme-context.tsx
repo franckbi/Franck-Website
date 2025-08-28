@@ -28,6 +28,8 @@ export function ThemeProvider({
 
   // Initialize theme from localStorage or system preference
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined')
+      return;
     const stored = localStorage.getItem(storageKey) as Theme;
     if (stored && ['light', 'dark', 'system'].includes(stored)) {
       setThemeState(stored);
@@ -38,10 +40,11 @@ export function ThemeProvider({
   useEffect(() => {
     const updateResolvedTheme = () => {
       if (theme === 'system') {
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
-          .matches
-          ? 'dark'
-          : 'light';
+        const systemTheme =
+          typeof window !== 'undefined' &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light';
         setResolvedTheme(systemTheme);
       } else {
         setResolvedTheme(theme);
@@ -51,19 +54,23 @@ export function ThemeProvider({
     updateResolvedTheme();
 
     // Listen for system theme changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = () => {
-      if (theme === 'system') {
-        updateResolvedTheme();
-      }
-    };
+    if (typeof window !== 'undefined') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = () => {
+        if (theme === 'system') {
+          updateResolvedTheme();
+        }
+      };
 
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }
+    return () => {};
   }, [theme]);
 
   // Apply theme to document
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(resolvedTheme);
@@ -71,7 +78,13 @@ export function ThemeProvider({
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
-    localStorage.setItem(storageKey, newTheme);
+    if (typeof localStorage !== 'undefined') {
+      try {
+        localStorage.setItem(storageKey, newTheme);
+      } catch (e) {
+        // ignore
+      }
+    }
   };
 
   const value: ThemeContextType = {

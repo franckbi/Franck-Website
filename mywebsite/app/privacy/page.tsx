@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 
+/* eslint-disable react/no-unescaped-entities */
+
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description:

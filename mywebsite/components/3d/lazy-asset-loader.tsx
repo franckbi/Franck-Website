@@ -1,5 +1,7 @@
 'use client';
 
+/* eslint-disable react/no-unescaped-entities */
+
 import { Suspense, useState, useEffect, useRef, ReactNode } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
@@ -70,22 +72,26 @@ export function LazyAssetLoader({
   useEffect(() => {
     const networkMonitor = getNetworkMonitor();
     const unsubscribe = networkMonitor.addListener(online => {
-      setLoadingState(prev => ({
-        ...prev,
-        networkOnline: online,
-        status: online ? prev.status : 'offline',
-      }));
+      setLoadingState(prev => {
+        const newState = {
+          ...prev,
+          networkOnline: online,
+          status: online ? prev.status : 'offline',
+        };
 
-      // Retry loading if we come back online and were in error state
-      if (online && prev.status === 'offline' && prev.error) {
-        setTimeout(() => {
-          setLoadingState(current => ({
-            ...current,
-            status: 'idle',
-            error: null,
-          }));
-        }, 1000);
-      }
+        // Retry loading if we come back online and were in error state
+        if (online && prev.status === 'offline' && prev.error) {
+          setTimeout(() => {
+            setLoadingState(current => ({
+              ...current,
+              status: 'idle',
+              error: null,
+            }));
+          }, 1000);
+        }
+
+        return newState;
+      });
     });
 
     return unsubscribe;
@@ -145,10 +151,8 @@ export function LazyAssetLoader({
           }
         });
 
-        // Load the bundle with abort signal
-        const assets = await assetManagerRef.current!.loadBundle(bundle, {
-          signal: abortControllerRef.current.signal,
-        });
+        // Load the bundle (asset manager accepts a single argument)
+        const assets = await assetManagerRef.current!.loadBundle(bundle);
 
         if (!cancelled) {
           setLoadingState({
@@ -496,6 +500,8 @@ export function useAssetLoader(bundle: AssetBundle) {
     progress: null,
     assets: null,
     error: null,
+    retryCount: 0,
+    networkOnline: typeof navigator !== 'undefined' ? navigator.onLine : true,
   });
 
   const assetManagerRef = useRef<AssetManager>();
@@ -525,6 +531,9 @@ export function useAssetLoader(bundle: AssetBundle) {
         progress: null,
         assets,
         error: null,
+        retryCount: 0,
+        networkOnline:
+          typeof navigator !== 'undefined' ? navigator.onLine : true,
       });
 
       unsubscribe();
@@ -536,6 +545,9 @@ export function useAssetLoader(bundle: AssetBundle) {
         progress: null,
         assets: null,
         error: err,
+        retryCount: 0,
+        networkOnline:
+          typeof navigator !== 'undefined' ? navigator.onLine : true,
       });
     }
   };

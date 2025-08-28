@@ -124,8 +124,8 @@ export class WebGLErrorBoundary extends Component<Props, State> {
 
   private trackError = (error: Error, errorInfo: ErrorInfo) => {
     // Track error with analytics
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'exception', {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'exception', {
         description: error.message,
         fatal: false,
         custom_map: {
@@ -153,8 +153,8 @@ export class WebGLErrorBoundary extends Component<Props, State> {
   };
 
   private trackContextLoss = () => {
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'webgl_context_lost', {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'webgl_context_lost', {
         event_category: '3D',
         event_label: 'context_loss',
         value: this.state.retryCount,
@@ -186,8 +186,8 @@ export class WebGLErrorBoundary extends Component<Props, State> {
     }));
 
     // Track retry attempt
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'webgl_recovery_attempt', {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'webgl_recovery_attempt', {
         event_category: '3D',
         event_label: 'retry',
         value: this.state.retryCount + 1,
@@ -213,8 +213,8 @@ export class WebGLErrorBoundary extends Component<Props, State> {
     window.dispatchEvent(event);
 
     // Track fallback usage
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'webgl_fallback_mode', {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'webgl_fallback_mode', {
         event_category: '3D',
         event_label: 'forced_fallback',
         value: this.state.retryCount,

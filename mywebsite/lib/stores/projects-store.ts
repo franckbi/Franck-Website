@@ -65,11 +65,14 @@ export const useProjectsStore = create<ProjectsState>()(
         const updatedFilters = { ...currentFilters, ...newFilters };
 
         // Avoid redundant updates that can trigger unnecessary renders
-        const shallowEqualArrays = <T,>(a: T[], b: T[]) =>
+        const shallowEqualArrays = <T>(a: T[], b: T[]) =>
           a.length === b.length && a.every((v, i) => v === b[i]);
 
         const isSame =
-          shallowEqualArrays(currentFilters.technology, updatedFilters.technology) &&
+          shallowEqualArrays(
+            currentFilters.technology,
+            updatedFilters.technology
+          ) &&
           shallowEqualArrays(currentFilters.year, updatedFilters.year) &&
           currentFilters.featured === updatedFilters.featured &&
           currentFilters.search === updatedFilters.search;

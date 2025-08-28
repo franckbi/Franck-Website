@@ -74,17 +74,7 @@ export function CanvasWrapper({
   // Memory management utilities for preventing memory leaks
   const { cleanupScene, cleanupRenderer, registerCleanup } = useMemoryManager();
 
-  /**
-   * WebGL capability detection
-   *
-   * Performs comprehensive WebGL support testing including:
-   * - Basic WebGL context creation
-   * - Required extension availability
-   * - Error handling for edge cases
-   *
-   * This runs once on component mount to determine if 3D rendering
-   * is possible on the current device/browser combination.
-   */
+  // Effects must be at top-level — moved all useEffect hooks here
   useEffect(() => {
     const detectWebGL = () => {
       try {
@@ -125,7 +115,6 @@ export function CanvasWrapper({
     detectWebGL();
   }, []);
 
-  // Device capabilities detection
   useEffect(() => {
     const detectCapabilities = async () => {
       const capabilities = await DeviceCapabilities.detect();
@@ -135,7 +124,6 @@ export function CanvasWrapper({
     detectCapabilities();
   }, []);
 
-  // Memory cleanup on unmount
   useEffect(() => {
     const cleanup = registerCleanup(() => {
       if (sceneRef.current) {
@@ -149,13 +137,32 @@ export function CanvasWrapper({
     return cleanup;
   }, [registerCleanup, cleanupScene, cleanupRenderer]);
 
+  // Announce loading state when detecting capabilities
+  useEffect(() => {
+    if (webglSupported === null || deviceCapabilities === null) {
+      announceLoadingState('loading', '3D scene');
+    }
+  }, [webglSupported, deviceCapabilities]);
+
+  // Announce fallback mode when appropriate
+  useEffect(() => {
+    if ((!webglSupported || lowPowerMode) && webglSupported !== null) {
+      const reason = lowPowerMode
+        ? 'Low power mode is active'
+        : 'WebGL is not supported';
+      announceLoadingState('loaded', `Static content (${reason})`);
+    }
+  }, [lowPowerMode, webglSupported]);
+
+  // Announce successful 3D loading
+  useEffect(() => {
+    if (webglSupported && !lowPowerMode) {
+      announceLoadingState('loaded', '3D scene');
+    }
+  }, [webglSupported, lowPowerMode]);
+
   // Show loading while detecting capabilities
   if (webglSupported === null || deviceCapabilities === null) {
-    // Announce loading state
-    useEffect(() => {
-      announceLoadingState('loading', '3D scene');
-    }, []);
-
     return (
       <div
         className={`flex items-center justify-center ${className}`}
@@ -170,14 +177,6 @@ export function CanvasWrapper({
 
   // Show fallback if WebGL not supported or low power mode enabled
   if (!webglSupported || lowPowerMode) {
-    // Announce fallback mode
-    useEffect(() => {
-      const reason = lowPowerMode
-        ? 'Low power mode is active'
-        : 'WebGL is not supported';
-      announceLoadingState('loaded', `Static content (${reason})`);
-    }, [lowPowerMode, webglSupported]);
-
     return (
       <div className={className}>
         {fallback || (
@@ -227,13 +226,6 @@ export function CanvasWrapper({
     depth: true,
   } as const;
 
-  // Announce successful 3D loading
-  useEffect(() => {
-    if (webglSupported && !lowPowerMode) {
-      announceLoadingState('loaded', '3D scene');
-    }
-  }, [webglSupported, lowPowerMode]);
-
   return (
     <div className={className}>
       <WebGLErrorBoundary
@@ -242,8 +234,8 @@ export function CanvasWrapper({
           console.error('WebGL Error in canvas wrapper:', error, errorInfo);
 
           // Track WebGL errors
-          if (typeof window !== 'undefined' && window.gtag) {
-            window.gtag('event', 'exception', {
+          if (typeof window !== 'undefined' && (window as any).gtag) {
+            (window as any).gtag('event', 'exception', {
               description: error.message,
               fatal: false,
               custom_map: {

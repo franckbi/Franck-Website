@@ -69,10 +69,57 @@ export const useSettingsStore = create<SettingsState>()(
     }),
     {
       name: 'portfolio-settings',
-      partialize: state => ({
-        lowPowerMode: state.lowPowerMode,
-        performanceMode: state.performanceMode,
-      }),
+      // Use a safe storage wrapper so SSR/builds don't attempt to access
+      // localStorage at module load time. We cast to `any` to satisfy the
+      // persist middleware typing while keeping runtime guards.
+      storage: ((): any => {
+        return {
+          getItem(name: string) {
+            try {
+              if (
+                typeof window === 'undefined' ||
+                typeof localStorage === 'undefined'
+              )
+                return null;
+              return localStorage.getItem(name);
+            } catch (e) {
+              return null;
+            }
+          },
+          setItem(name: string, value: any) {
+            try {
+              if (
+                typeof window === 'undefined' ||
+                typeof localStorage === 'undefined'
+              )
+                return;
+              localStorage.setItem(
+                name,
+                typeof value === 'string' ? value : JSON.stringify(value)
+              );
+            } catch (e) {
+              // ignore
+            }
+          },
+          removeItem(name: string) {
+            try {
+              if (
+                typeof window === 'undefined' ||
+                typeof localStorage === 'undefined'
+              )
+                return;
+              localStorage.removeItem(name);
+            } catch (e) {
+              // ignore
+            }
+          },
+        } as any;
+      })(),
+      partialize: state =>
+        ({
+          lowPowerMode: state.lowPowerMode,
+          performanceMode: state.performanceMode,
+        }) as any,
     }
   )
 );
@@ -84,6 +131,8 @@ export const useInitializeSettings = () => {
   );
 
   React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     initializeFromSystem();
 
     // Listen for changes in system preferences
@@ -105,16 +154,21 @@ export const useInitializeSettings = () => {
 
 // Utility function to announce changes to screen readers
 const announceToScreenReader = (message: string) => {
+  if (typeof document === 'undefined') return;
   const announcement = document.createElement('div');
   announcement.setAttribute('aria-live', 'polite');
   announcement.setAttribute('aria-atomic', 'true');
   announcement.className = 'sr-only';
   announcement.textContent = message;
 
-  document.body.appendChild(announcement);
-  setTimeout(() => {
-    if (document.body.contains(announcement)) {
-      document.body.removeChild(announcement);
-    }
-  }, 1000);
+  try {
+    document.body.appendChild(announcement);
+    setTimeout(() => {
+      if (document.body.contains(announcement)) {
+        document.body.removeChild(announcement);
+      }
+    }, 1000);
+  } catch (e) {
+    // ignore DOM errors
+  }
 };

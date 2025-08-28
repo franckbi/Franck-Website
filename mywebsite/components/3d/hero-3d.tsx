@@ -119,20 +119,21 @@ export function Hero3D({ projects, className = '' }: Hero3DProps) {
 
   // Initialize semantic equivalent for screen readers
   useEffect(() => {
-    if (containerRef.current && featuredProjects.length > 0) {
+    const container = containerRef.current;
+    if (container && featuredProjects.length > 0) {
       const semanticElement = createSemanticEquivalent(
-        containerRef.current,
+        container,
         featuredProjects,
         handleProjectClick
       );
 
       return () => {
-        if (containerRef.current?.contains(semanticElement)) {
-          containerRef.current.removeChild(semanticElement);
+        if (container.contains(semanticElement)) {
+          container.removeChild(semanticElement);
         }
       };
     }
-  }, [featuredProjects]);
+  }, [featuredProjects, handleProjectClick]);
 
   // Static fallback content
   const staticFallback = (

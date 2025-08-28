@@ -252,6 +252,3 @@ class ErrorReporter {
 
 // Export singleton instance
 export const errorReporter = new ErrorReporter();
-
-// Export types
-export type { ErrorContext };

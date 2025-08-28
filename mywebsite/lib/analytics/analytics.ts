@@ -24,6 +24,7 @@ export interface ErrorReport {
   url: string;
   userAgent: string;
   timestamp: number;
+  sessionId?: string;
 }
 
 class AnalyticsService {
@@ -32,10 +33,26 @@ class AnalyticsService {
   private apiHost: string = 'https://plausible.io';
 
   constructor() {
-    this.initialize();
+    // NOTE: initialization is deferred to init() so importing this module
+    // during server-side builds does not access window/localStorage.
+  }
+
+  // Call this from client-only code (e.g. in a useEffect) to initialize
+  public init() {
+    try {
+      this.initialize();
+    } catch (e) {
+      // Safe no-op during builds or when DOM APIs are unavailable
+      // eslint-disable-next-line no-console
+      console.warn('Analytics initialization skipped:', e);
+    }
   }
 
   private initialize() {
+    // Ensure this runs only in a browser environment
+    if (typeof window === 'undefined' || typeof document === 'undefined')
+      return;
+
     // Check if analytics should be enabled based on environment
     if (!isAnalyticsEnabled()) {
       return;
@@ -50,20 +67,32 @@ class AnalyticsService {
     this.isEnabled = hasConsent && respectsDNT && typeof window !== 'undefined';
 
     if (this.isEnabled) {
+      // Only set domain/apiHost when present
       this.domain =
-        analyticsConfig.plausible.domain || window.location.hostname;
-      this.apiHost = analyticsConfig.plausible.apiHost;
-      this.loadPlausibleScript();
+        analyticsConfig.plausible.domain || window.location.hostname || '';
+      this.apiHost = analyticsConfig.plausible.apiHost || this.apiHost;
+
+      if (this.domain) {
+        this.loadPlausibleScript();
+      }
     }
   }
 
   private checkUserConsent(): boolean {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined')
+      return false;
     // Check localStorage for user consent
-    const consent = localStorage.getItem('analytics-consent');
-    return consent === 'true';
+    try {
+      const consent = localStorage.getItem('analytics-consent');
+      return consent === 'true';
+    } catch (e) {
+      return false;
+    }
   }
 
   private loadPlausibleScript() {
+    if (typeof document === 'undefined') return;
+    if (!this.domain || !this.apiHost) return;
     if (document.querySelector('script[data-domain]')) return;
 
     const script = document.createElement('script');
@@ -78,10 +107,11 @@ class AnalyticsService {
    */
   trackEvent(event: AnalyticsEvent) {
     if (!this.isEnabled) return;
+    if (typeof window === 'undefined') return;
 
     try {
       // Use Plausible's custom event API
-      if (typeof window !== 'undefined' && (window as any).plausible) {
+      if ((window as any).plausible) {
         (window as any).plausible(event.name, { props: event.props });
       }
     } catch (error) {
@@ -187,7 +217,14 @@ class AnalyticsService {
    * Enable analytics with user consent
    */
   enableAnalytics() {
-    localStorage.setItem('analytics-consent', 'true');
+    if (typeof localStorage !== 'undefined') {
+      try {
+        localStorage.setItem('analytics-consent', 'true');
+      } catch (e) {
+        // ignore
+      }
+    }
+
     this.isEnabled = true;
     this.loadPlausibleScript();
   }
@@ -196,13 +233,22 @@ class AnalyticsService {
    * Disable analytics and clear consent
    */
   disableAnalytics() {
-    localStorage.setItem('analytics-consent', 'false');
+    if (typeof localStorage !== 'undefined') {
+      try {
+        localStorage.setItem('analytics-consent', 'false');
+      } catch (e) {
+        // ignore
+      }
+    }
+
     this.isEnabled = false;
 
     // Remove Plausible script
-    const script = document.querySelector('script[data-domain]');
-    if (script) {
-      script.remove();
+    if (typeof document !== 'undefined') {
+      const script = document.querySelector('script[data-domain]');
+      if (script) {
+        script.remove();
+      }
     }
   }
 
@@ -214,8 +260,5 @@ class AnalyticsService {
   }
 }
 
-// Export singleton instance
+// Export singleton instance (safe to import on server now)
 export const analytics = new AnalyticsService();
-
-// Export types for use in components
-export type { AnalyticsEvent, PerformanceMetrics, ErrorReport };

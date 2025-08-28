@@ -2,92 +2,80 @@
  * Sentry configuration for error monitoring and performance tracking
  */
 
-import * as Sentry from '@sentry/nextjs';
 import { env, isProduction } from '@/lib/config/environment';
 
-export function initSentry() {
+// Dynamically load Sentry if available to avoid build-time failures when the
+// optional package is not installed in environments where monitoring isn't
+// required (e.g. CI or local dev without Sentry). We store the loaded module
+// in this variable and guard all usages.
+let Sentry: any | null = null;
+
+export async function initSentry() {
   if (!env.MONITORING.SENTRY_DSN || !isProduction) {
+    return;
+  }
+
+  try {
+    Sentry = await import('@sentry/nextjs');
+  } catch (e) {
+    // Sentry not installed — skip initialization silently
+    // This keeps builds working in minimal environments.
+    // eslint-disable-next-line no-console
+    console.warn('Sentry not available, skipping initialization.');
     return;
   }
 
   Sentry.init({
     dsn: env.MONITORING.SENTRY_DSN,
     environment: process.env.VERCEL_ENV || env.NODE_ENV,
-
-    // Performance monitoring
     tracesSampleRate: isProduction ? 0.1 : 1.0,
-
-    // Session replay
     replaysSessionSampleRate: 0.01,
     replaysOnErrorSampleRate: 1.0,
-
-    // Error filtering
-    beforeSend(event, hint) {
-      // Filter out known non-critical errors
-      const error = hint.originalException;
-
+    beforeSend(event: any, hint: any) {
+      const error = hint?.originalException;
       if (error instanceof Error) {
-        // Filter out WebGL context lost errors (handled gracefully)
-        if (error.message.includes('WebGL context lost')) {
-          return null;
-        }
-
-        // Filter out network errors from analytics
+        if (error.message.includes('WebGL context lost')) return null;
         if (
           error.message.includes('plausible.io') &&
           error.message.includes('fetch')
-        ) {
+        )
           return null;
-        }
-
-        // Filter out 3D model loading errors (have fallbacks)
         if (
           error.message.includes('Failed to load model') ||
           error.message.includes('THREE.GLTFLoader')
-        ) {
+        )
           return null;
-        }
       }
-
       return event;
     },
-
-    // Performance filtering
-    beforeSendTransaction(event) {
-      // Don't send transactions for health checks
-      if (event.transaction?.includes('/api/health')) {
-        return null;
-      }
-
+    beforeSendTransaction(event: any) {
+      if (event.transaction?.includes('/api/health')) return null;
       return event;
     },
-
-    // Additional configuration
     integrations: [
-      new Sentry.BrowserTracing({
-        // Capture interactions
-        tracingOrigins: [
-          'localhost',
-          /^https:\/\/[^/]*\.vercel\.app/,
-          /^https:\/\/your-domain\.com/,
-        ],
-
-        // Custom routing instrumentation for Next.js App Router
-        routingInstrumentation: Sentry.nextRouterInstrumentation,
-      }),
-
-      new Sentry.Replay({
-        // Mask sensitive data
-        maskAllText: false,
-        maskAllInputs: true,
-        blockAllMedia: false,
-      }),
+      ...(Sentry.BrowserTracing
+        ? [
+            new Sentry.BrowserTracing({
+              tracingOrigins: [
+                'localhost',
+                /^https:\/\/[^/]*\.vercel\.app/,
+                /^https:\/\/your-domain\.com/,
+              ],
+              routingInstrumentation: Sentry.nextRouterInstrumentation,
+            }),
+          ]
+        : []),
+      ...(Sentry.Replay
+        ? [
+            new Sentry.Replay({
+              maskAllText: false,
+              maskAllInputs: true,
+              blockAllMedia: false,
+            }),
+          ]
+        : []),
     ],
-
-    // Release tracking
     release: process.env.VERCEL_GIT_COMMIT_SHA || 'development',
-
-    // User context
     initialScope: {
       tags: {
         component: 'portfolio-website',
@@ -97,6 +85,7 @@ export function initSentry() {
   });
 }
 
+// Monitoring utilities below will check Sentry presence before calling into it
 /**
  * Custom error reporting utilities
  */
@@ -105,7 +94,9 @@ export const monitoring = {
    * Report a custom error with context
    */
   reportError(error: Error, context?: Record<string, any>) {
-    Sentry.withScope(scope => {
+    if (!Sentry) return;
+
+    Sentry.withScope((scope: any) => {
       if (context) {
         scope.setContext('custom', context);
       }
@@ -121,7 +112,9 @@ export const monitoring = {
     level: 'info' | 'warning' | 'error' = 'info',
     context?: Record<string, any>
   ) {
-    Sentry.withScope(scope => {
+    if (!Sentry) return;
+
+    Sentry.withScope((scope: any) => {
       if (context) {
         scope.setContext('custom', context);
       }
@@ -133,6 +126,7 @@ export const monitoring = {
    * Set user context
    */
   setUser(user: { id?: string; email?: string; [key: string]: any }) {
+    if (!Sentry) return;
     Sentry.setUser(user);
   },
 
@@ -144,6 +138,8 @@ export const monitoring = {
     category?: string,
     data?: Record<string, any>
   ) {
+    if (!Sentry) return;
+
     Sentry.addBreadcrumb({
       message,
       category: category || 'custom',
@@ -156,6 +152,7 @@ export const monitoring = {
    * Start a performance transaction
    */
   startTransaction(name: string, op: string) {
+    if (!Sentry) return null;
     return Sentry.startTransaction({ name, op });
   },
 
@@ -169,7 +166,9 @@ export const monitoring = {
     loadTime: number;
     memoryUsage: number;
   }) {
-    Sentry.withScope(scope => {
+    if (!Sentry) return;
+
+    Sentry.withScope((scope: any) => {
       scope.setTag('performance_type', '3d_rendering');
       scope.setContext('3d_metrics', metrics);
 
@@ -188,7 +187,9 @@ export const monitoring = {
     size: number,
     success: boolean
   ) {
-    Sentry.withScope(scope => {
+    if (!Sentry) return;
+
+    Sentry.withScope((scope: any) => {
       scope.setTag('performance_type', 'asset_loading');
       scope.setContext('asset_metrics', {
         asset,
@@ -209,6 +210,8 @@ export const monitoring = {
    * Report user interaction
    */
   reportInteraction(interaction: string, context?: Record<string, any>) {
+    if (!Sentry) return;
+
     Sentry.addBreadcrumb({
       message: `User interaction: ${interaction}`,
       category: 'user',

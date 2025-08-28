@@ -45,35 +45,37 @@ export function AnalyticsProvider({
   const [isEnabled, setIsEnabled] = useState(false);
 
   useEffect(() => {
-    // Initialize analytics
-    const shouldEnable =
-      enableInDevelopment || process.env.NODE_ENV === 'production';
+    // Initialize analytics only in the browser
+    if (typeof window !== 'undefined') {
+      analytics.init();
+      const shouldEnable =
+        enableInDevelopment || process.env.NODE_ENV === 'production';
+      if (shouldEnable) {
+        setIsEnabled(analytics.isAnalyticsEnabled());
+      }
 
-    if (shouldEnable) {
-      setIsEnabled(analytics.isAnalyticsEnabled());
+      // Track initial page load
+      if (analytics.isAnalyticsEnabled()) {
+        analytics.trackEvent({
+          name: 'app-load',
+          props: {
+            timestamp: Date.now(),
+            userAgent: navigator.userAgent,
+            viewport: `${window.innerWidth}x${window.innerHeight}`,
+            colorScheme: window.matchMedia?.('(prefers-color-scheme: dark)')
+              ?.matches
+              ? 'dark'
+              : 'light',
+            reducedMotion:
+              window.matchMedia?.('(prefers-reduced-motion: reduce)')
+                ?.matches || false,
+          },
+        });
+      }
+
+      // Set up performance monitoring
+      performanceTracker.start();
     }
-
-    // Track initial page load
-    if (analytics.isAnalyticsEnabled()) {
-      analytics.trackEvent({
-        name: 'app-load',
-        props: {
-          timestamp: Date.now(),
-          userAgent: navigator.userAgent,
-          viewport: `${window.innerWidth}x${window.innerHeight}`,
-          colorScheme: window.matchMedia?.('(prefers-color-scheme: dark)')
-            ?.matches
-            ? 'dark'
-            : 'light',
-          reducedMotion:
-            window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ||
-            false,
-        },
-      });
-    }
-
-    // Set up performance monitoring
-    performanceTracker.start();
 
     return () => {
       performanceTracker.stop();
@@ -152,6 +154,8 @@ export function AnalyticsConsentBanner() {
 
   useEffect(() => {
     // Show banner if user hasn't made a choice yet
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined')
+      return;
     const consent = localStorage.getItem('analytics-consent');
     if (consent === null) {
       setShowBanner(true);

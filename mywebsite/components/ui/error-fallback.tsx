@@ -88,12 +88,14 @@ interface Scene3DErrorFallbackProps {
   error?: Error;
   resetError?: () => void;
   className?: string;
+  children?: React.ReactNode;
 }
 
 export function Scene3DErrorFallback({
   error,
   resetError,
   className = '',
+  children,
 }: Scene3DErrorFallbackProps) {
   return (
     <div
@@ -146,6 +148,9 @@ export function Scene3DErrorFallback({
           Switch to 2D Mode
         </button>
       </div>
+
+      {/* Render optional custom children (e.g. additional error info) */}
+      {children && <div className="w-full">{children}</div>}
     </div>
   );
 }

@@ -326,6 +326,3 @@ class PerformanceTracker {
 
 // Export singleton instance
 export const performanceTracker = new PerformanceTracker();
-
-// Export types
-export type { WebVitalsMetrics, ThreeJSMetrics };

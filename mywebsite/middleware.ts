@@ -39,9 +39,12 @@ function generateNonce(): string {
 
 export function middleware(req: NextRequest) {
   const nonce = generateNonce();
+  const isDev = process.env.NODE_ENV === 'development';
 
-  // Build a strict CSP that uses the per-request nonce for scripts
-  const csp = `default-src 'self'; script-src 'self' 'nonce-${nonce}' https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https:; font-src 'self' data:; connect-src 'self' https: https://plausible.io https://api.resend.com https://raw.githack.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'self' blob:; child-src 'self' blob:; media-src 'self' blob: data:; upgrade-insecure-requests;`;
+  // Build CSP - more permissive in development for hot reload
+  const csp = isDev
+    ? `default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' 'nonce-${nonce}' https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https:; font-src 'self' data:; connect-src 'self' https: wss: https://plausible.io https://api.resend.com https://raw.githack.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'self' blob:; child-src 'self' blob:; media-src 'self' blob: data:;`
+    : `default-src 'self'; script-src 'self' 'unsafe-inline' 'nonce-${nonce}' https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https:; font-src 'self' data:; connect-src 'self' https: https://plausible.io https://api.resend.com https://raw.githack.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'self' blob:; child-src 'self' blob:; media-src 'self' blob: data:; upgrade-insecure-requests;`;
 
   // Forward the nonce to downstream server components via a request header
   const newRequestHeaders = new Headers(req.headers);

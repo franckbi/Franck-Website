@@ -18,6 +18,7 @@ export function LowPowerToggle({
   return (
     <button
       onClick={toggleLowPowerMode}
+      data-testid="low-power-toggle"
       className={`inline-flex items-center justify-center gap-2 rounded-md p-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${className}`}
       aria-label={
         lowPowerMode ? 'Disable low power mode' : 'Enable low power mode'

@@ -113,79 +113,54 @@ export function SkillsMatrix({
     // If already loaded, skip
     if (localCategories !== null) return;
 
-    const controller = new AbortController();
-    const signal = controller.signal;
+    let isMounted = true;
     const TIMEOUT_MS = 8000;
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
     const load = async () => {
+      if (!isMounted) return;
       setLoading(true);
+
       try {
-        timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+        // Simple fetch without AbortController to avoid React Strict Mode issues
+        const res = await fetch('/data/skills.json', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        });
 
-        // First attempt: relative request (normal case)
-        let res: Response | null = null;
-        try {
-          res = await fetch('/data/skills.json', { signal });
-        } catch (firstErr) {
-          console.warn(
-            'First fetch attempt for /data/skills.json failed:',
-            firstErr
-          );
+        if (!isMounted) return;
+
+        if (!res.ok) {
+          throw new Error(`Failed to load skills: ${res.status}`);
         }
-
-        // If first attempt failed or returned non-ok, try absolute origin + no-store
-        if (!res || !res.ok) {
-          try {
-            const origin =
-              typeof window !== 'undefined' ? window.location.origin : '';
-            const absoluteUrl = origin + '/data/skills.json';
-            console.info(
-              'Attempting second fetch for skills using absolute URL:',
-              absoluteUrl
-            );
-            res = await fetch(absoluteUrl, { signal, cache: 'no-store' });
-          } catch (secondErr) {
-            console.warn(
-              'Second fetch attempt for skills.json failed:',
-              secondErr
-            );
-          }
-        }
-
-        if (!res)
-          throw new Error('No response received when fetching skills.json');
-        if (!res.ok) throw new Error(`Failed to load skills: ${res.status}`);
 
         const data: SkillCategory[] = await res.json();
+
+        if (!isMounted) return;
+
         setLocalCategories(data);
         setError(null);
       } catch (err: any) {
-        if (err && err.name === 'AbortError') {
-          console.error('skills.json fetch aborted/timed out');
-          setError('Request timed out while loading skills.');
-        } else {
-          console.error('Failed to fetch skills.json', err);
-          // Provide a clearer message to help diagnose deployment issues
-          setError(
-            err instanceof Error
-              ? err.message
-              : String(err) || 'Unknown error while loading skills'
-          );
-        }
+        if (!isMounted) return;
+
+        console.warn('Failed to fetch skills.json', err);
+        setError(
+          err instanceof Error
+            ? err.message
+            : String(err) || 'Unknown error while loading skills'
+        );
       } finally {
-        if (timeoutId) {
-          clearTimeout(timeoutId);
+        if (isMounted) {
+          setLoading(false);
         }
-        setLoading(false);
       }
     };
 
     load();
 
     return () => {
-      if (timeoutId) clearTimeout(timeoutId);
-      controller.abort();
+      isMounted = false;
     };
   }, [skillCategories, localCategories]);
 

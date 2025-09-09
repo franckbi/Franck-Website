@@ -231,7 +231,7 @@ export function HeroScene({
         loadTime: Math.round(loadTime),
       });
     }
-  }, [featuredProjects.length, analytics]);
+  }, [featuredProjects.length]);
 
   // Camera animation for focused project
   const getCameraTargetForProject = useCallback(

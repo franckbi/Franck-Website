@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Lazy3DWrapper } from './lazy-3d-wrapper';
 import { CanvasWrapper } from './canvas-wrapper';
 import { HeroScene } from './hero-scene';
@@ -74,7 +74,7 @@ export function Hero3D({ projects, className = '' }: Hero3DProps) {
     }
   };
 
-  const handleProjectClick = (project: Project) => {
+  const handleProjectClick = useCallback((project: Project) => {
     focusManagerRef.current.saveFocus();
     setSelectedProject(project);
     setHoveredProject(null);
@@ -86,7 +86,7 @@ export function Hero3D({ projects, className = '' }: Hero3DProps) {
       `Opened ${project.title} project panel. Use Tab to navigate options or Escape to close.`,
       'assertive'
     );
-  };
+  }, []);
 
   const handleClosePanel = () => {
     setSelectedProject(null);

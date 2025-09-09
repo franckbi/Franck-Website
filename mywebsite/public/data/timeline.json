@@ -128,5 +128,19 @@
       "PostgreSQL"
     ],
     "type": "education"
+  },
+  {
+    "date": "2025-09-01",
+    "title": "Master of Computer Science (MCS) - Computer Science",
+    "company": "Arizona State University",
+    "description": "Started Master of Computer Science program at Arizona State University, focusing on advanced computer science concepts and research.",
+    "technologies": [
+      "Advanced Algorithms",
+      "Machine Learning",
+      "Distributed Systems",
+      "Software Engineering",
+      "Data Structures"
+    ],
+    "type": "education"
   }
 ]

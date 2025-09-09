@@ -79,6 +79,18 @@ export function HeroWithToggle({ projects }: HeroWithToggleProps) {
         <div className="max-w-4xl mx-auto text-center px-4 py-16">
           {/* Main Title with Glass Effect */}
           <div className="backdrop-blur-md bg-background/30 rounded-2xl p-8 mb-8 border border-border/30 shadow-2xl">
+            {/* Profile Picture */}
+            <div className="flex justify-center mb-6">
+              <div className="relative">
+                <img
+                  src="/picture.jpg"
+                  alt="Franck Biyogue Bi Ndoutoume - Software Engineer"
+                  className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-primary/20 shadow-xl"
+                />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/20 to-transparent"></div>
+              </div>
+            </div>
+
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent mb-6">
               Franck Biyogue Bi Ndoutoume
             </h1>
@@ -87,8 +99,8 @@ export function HeroWithToggle({ projects }: HeroWithToggleProps) {
               Engineer @ISU
             </p>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Experienced developer specializing in full-stack development, 3D
-              web experiences, and data-driven solutions.
+              Full-stack developer, skilled in debugging, building data-driven
+              apps, and communicating technical issues clearly.
             </p>
 
             {/* Action Buttons */}

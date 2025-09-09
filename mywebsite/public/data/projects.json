@@ -36,8 +36,8 @@
     "role": "Full-Stack Developer & 3D Designer",
     "year": 2024,
     "links": {
-      "demo": "https://portfolio.example.com",
-      "github": "https://github.com/username/3d-portfolio",
+      "demo": "https://franck-portfolio.vercel.app/",
+      "github": "https://github.com/franckbi/Franck-Website",
       "case_study": "/projects/3d-portfolio-website"
     },
     "badges": ["Featured", "3D", "WebGL"],
